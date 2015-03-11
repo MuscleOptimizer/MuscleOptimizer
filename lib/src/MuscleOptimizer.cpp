@@ -288,8 +288,8 @@ Array<std::string> MuscleOptimizer::getJointSpannedByMuscle(Model& model, const 
     while (currentBodyName != proximalBodyName) {
         for (int i = 0; i < jointSet.getSize(); i++)
         {
-            if (jointSet.get(i).getChildBody().getName() == currentBodyName) //was:
-                //            if (jointSet.get(i).getBody().getName() == currentBodyName)
+//            if (jointSet.get(i).getChildBody().getName() == currentBodyName) //was:
+            if (jointSet.get(i).getBody().getName() == currentBodyName)
             {
                 if (jointSet.get(i).getCoordinateSet().getSize() != 0)
                     jointNames.append(jointSet.get(i).getName());
@@ -414,8 +414,8 @@ std::vector<MuscleOptimizer::TemplateMuscleInfo> MuscleOptimizer::sampleTemplate
         {
             model.getMuscles().get(muscleName).equilibrate(si);
             muscleInfo.normalizedFiberLength = model.getMuscles().get(muscleName).getNormalizedFiberLength(si);
-            if (muscleInfo.normalizedFiberLength < minFiberLength || model.getMuscles().get(muscleName).getActuation(si) == 0.0) //was:
-                //        if (model.getMuscles().get(muscleName).getForce(si) == 0.0))
+            //if (muscleInfo.normalizedFiberLength < minFiberLength || model.getMuscles().get(muscleName).getActuation(si) == 0.0) //was:
+            if (model.getMuscles().get(muscleName).getForce(si) == 0.0)
             {
                 pointsToRemove.push_back(combinationInd);
             }
