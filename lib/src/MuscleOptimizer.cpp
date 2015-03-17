@@ -224,8 +224,8 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                 }
 
                 //tmp:
-                std::cout << A << std::endl;
-                std::cout << targetMTUlength << std::endl;
+                //std::cout << A << std::endl;
+                //std::cout << targetMTUlength << std::endl;
 
                 SimTK::Vector x;
 
@@ -415,7 +415,7 @@ std::vector<MuscleOptimizer::TemplateMuscleInfo> MuscleOptimizer::sampleTemplate
             model.getMuscles().get(muscleName).equilibrate(si);
             muscleInfo.normalizedFiberLength = model.getMuscles().get(muscleName).getNormalizedFiberLength(si);
             //if (muscleInfo.normalizedFiberLength < minFiberLength || model.getMuscles().get(muscleName).getActuation(si) == 0.0) //was:
-            if (model.getMuscles().get(muscleName).getForce(si) == 0.0)
+            if (model.getMuscles().get(muscleName).getForce(si) == 0.0 || model.getMuscles().get(muscleName).getNormalizedFiberLength(si)<0.5)
             {
                 pointsToRemove.push_back(combinationInd);
             }
