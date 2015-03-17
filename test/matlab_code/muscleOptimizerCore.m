@@ -72,8 +72,8 @@ for n_mus = 0:muscles.getSize-1
     b = MTL_scaled;
 
     % ===== LINSOL =======
-    %x = A\b;
-    x =lsqnonneg(A, b);
+    x = A\b;
+    %x =lsqnonneg(A, b);
     LmOptLts_opt(n_mus+1,:) = x;
 
     % ====== TEST1 =======
