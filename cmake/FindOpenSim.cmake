@@ -21,7 +21,7 @@ find_path(OpenSim_INCLUDE_DIRS OpenSim/OpenSim.h
           HINTS ${OPENSIM_HOME}
           PATHS ${OPENSIM_POSSIBLE_DIRECTORIES}
           PATH_SUFFIXES sdk/include )
-MESSAGE( STATUS "OpenSim Include path: ${OPENSIM_INCLUDE_DIRS}")
+MESSAGE( STATUS "OpenSim Include path: ${OpenSim_INCLUDE_DIRS}")
 
 find_path(SIMTK_INCLUDE_DIRS Simbody.h
           HINTS ${OPENSIM_HOME}
