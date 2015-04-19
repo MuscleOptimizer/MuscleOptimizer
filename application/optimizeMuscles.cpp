@@ -120,9 +120,9 @@ int main(int argc, char **argv)
 
         SimTK::State& s = inputmodel->initSystem();
 
-        if (!subject->isDefaultMuscleOptimizer() && subject->getMuscleOptimizer().getApply())
+        if (!subject->isDefaultMuscleOptimizer() && subject->getMuscleOptimizer().get_apply())
         {
-            MuscleOptimizer& optimizer = subject->getMuscleOptimizer();
+            MuscleOptimizer& optimizer = subject->upd_MuscleOptimizer();
             if (!optimizer.processModel(inputmodel, referencemodel, subject->getPathToSubject())) return -1;
         }
         else

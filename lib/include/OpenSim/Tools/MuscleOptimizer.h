@@ -30,41 +30,17 @@ namespace OpenSim {
      */
     class OSIMTOOLS_API MuscleOptimizer : public Object {
         OpenSim_DECLARE_CONCRETE_OBJECT(MuscleOptimizer, Object);
-
-        //=============================================================================
-        // DATA
-        //=============================================================================
-    private:
-
-    protected:
-        /** Pointer to the model being investigated. */
-        //Model *_inputModel;
-
-        /** Pointer to the reference model. */
-        //Model *_referenceModel;
-
-        // whether or not to apply optimizing
-        PropertyBool _applyProp;
-        bool &_apply;
-
-        //// joints to consider
-        PropertyStrArray _coordinatesProp;
-        Array<std::string> &_coordinates;
-
-        //// muscles to consider
-        PropertyStrArray _musclesProp;
-        Array<std::string> &_muscles;
-
-        //// constraints
-      //  PropertyObjArray<Constraints> _constraintsProp;
-
-        //// number of points to sample each ROM
-        PropertyDbl _nEvalPointsProp;
-        double &_nEvalPoints;
-
-        // name of XML model file to write when done optimizing
-        PropertyStr _outputModelFileNameProp;
-        std::string &_outputModelFileName;
+    public:
+        OpenSim_DECLARE_PROPERTY(apply, bool,
+            "Whether or not to use the model optimizer during optimization");
+        OpenSim_DECLARE_LIST_PROPERTY(coordinates, std::string,
+            "Specifies the coordinates (degrees of freedom) to consider (default: ALL)");
+        OpenSim_DECLARE_LIST_PROPERTY(muscles, std::string,
+            "Specifies the muscles to consider (default: ALL)");
+        OpenSim_DECLARE_PROPERTY(n_evaluation_points, double,
+            "Number of evaluation points for each degree of freedom");
+        OpenSim_DECLARE_PROPERTY(output_model_file, std::string,
+            "Name of OpenSim model file (.osim) to write when done optimizing.");
 
         // Whether or not to write write to the designated output files (GUI will set this to false)
         bool _printResultFiles;
@@ -77,51 +53,10 @@ namespace OpenSim {
         //--------------------------------------------------------------------------
     public:
         MuscleOptimizer();
-        MuscleOptimizer(const MuscleOptimizer &aMuscleOptimizer);
         virtual ~MuscleOptimizer();
-
-#ifndef SWIG
-        MuscleOptimizer& operator=(const MuscleOptimizer &aMuscleOptimizer);
-#endif
-        void copyData(const MuscleOptimizer &aMuscleOptimizer);
 
         /* Register types to be used when reading a MuscleOptimizer object from xml file. */
         static void registerTypes();
-
-        //--------------------------------------------------------------------------
-        // GET AND SET
-        //--------------------------------------------------------------------------
-
-        bool getApply() const { return _apply; }
-        void setApply(bool aApply) {
-            _apply = aApply;
-            _applyProp.setValueIsDefault(false);
-        }
-
-        const Array<std::string> &getCoordinates() const { return _coordinates; }
-        void setJoints(Array<std::string> joints) {
-            _coordinates = joints;
-            _coordinatesProp.setValueIsDefault(false);
-        }
-
-        const Array<std::string> &getMuscles() const { return _muscles; }
-        void setMuscles(Array<std::string> muscles) {
-            _muscles = muscles;
-            _musclesProp.setValueIsDefault(false);
-        }
-
-        double getNEvalPoints() const { return _nEvalPoints; }
-        void setNEvalPoints(double nEvalPoints) {
-            _nEvalPoints = nEvalPoints;
-            _nEvalPointsProp.setValueIsDefault(false);
-        }
-
-        const std::string& getOutputModelFileName() const { return _outputModelFileName; }
-        void setOutputModelFileName(const std::string& aOutputModelFileName) {
-            _outputModelFileName = aOutputModelFileName;
-            _outputModelFileNameProp.setValueIsDefault(false);
-        }
-
 
         //--------------------------------------------------------------------------
         // INTERFACE
@@ -138,8 +73,7 @@ namespace OpenSim {
             double normalizedTendonLength;
             double pennationAngle;
         };
-        void setNull();
-        void setupProperties();
+        void constructProperties();
         bool isEnabledMuscle(std::string muscleName);
         bool isEnabledCoordinate(std::string coordinateName);
         Array<std::string> getJointSpannedByMuscle(Model& model, const std::string& muscleName);

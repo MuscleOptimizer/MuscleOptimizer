@@ -36,15 +36,9 @@ inline bool isAbsolute(const char *path) {
 /**
  * Default constructor.
  */
-MuscleOptimizeTool::MuscleOptimizeTool() :
-_notes(_notesProp.getValueStr()),
-_inputModelFileName(_inputModelFileNameProp.getValueStr()),
-_referenceModelFileName(_referenceModelFileNameProp.getValueStr()),
-_muscleOptimizerProp(PropertyObj("", MuscleOptimizer())),
-_muscleOptimizer((MuscleOptimizer&)_muscleOptimizerProp.getValueObj())
+MuscleOptimizeTool::MuscleOptimizeTool()
 {
-    setNull();
-    setupProperties();
+    constructProperties();
 }
 
 //_____________________________________________________________________________
@@ -52,25 +46,19 @@ _muscleOptimizer((MuscleOptimizer&)_muscleOptimizerProp.getValueObj())
  * Constructor from an XML file
  */
 MuscleOptimizeTool::MuscleOptimizeTool(const string &aFileName) :
-Object(aFileName, true),
-_notes(_notesProp.getValueStr()),
-_inputModelFileName(_inputModelFileNameProp.getValueStr()),
-_referenceModelFileName(_referenceModelFileNameProp.getValueStr()),
-_muscleOptimizerProp(PropertyObj("", MuscleOptimizer())),
-_muscleOptimizer((MuscleOptimizer&)_muscleOptimizerProp.getValueObj())
+Object(aFileName, true)
 {
-    setNull();
-    setupProperties();
+    constructProperties();
 
     updateFromXMLDocument();
 
     _pathToSubject = IO::getParentDirectory(aFileName);
 
-    if (!isAbsolute(_referenceModelFileName.c_str()))
-        _referenceModelFileName=_pathToSubject + _referenceModelFileName;
+    if (!isAbsolute(get_reference_model().c_str()))
+        set_reference_model(_pathToSubject + get_reference_model());
 
-    if (!isAbsolute(_inputModelFileName.c_str()))
-        _inputModelFileName = _pathToSubject + _inputModelFileName;
+    if (!isAbsolute(get_model().c_str()))
+        set_model(_pathToSubject + get_model());
 }
 
 //_____________________________________________________________________________
@@ -81,71 +69,19 @@ MuscleOptimizeTool::~MuscleOptimizeTool()
 {
 }
 
-//_____________________________________________________________________________
-/**
- * Copy constructor.
- *
- * @param aSubject MuscleOptimizeTool to be copied.
- */
-MuscleOptimizeTool::MuscleOptimizeTool(const MuscleOptimizeTool &aSubject) :
-Object(aSubject),
-_notes(_notesProp.getValueStr()),
-_inputModelFileName(_inputModelFileNameProp.getValueStr()),
-_referenceModelFileName(_referenceModelFileNameProp.getValueStr()),
-_muscleOptimizerProp(PropertyObj("", MuscleOptimizer())),
-_muscleOptimizer((MuscleOptimizer&)_muscleOptimizerProp.getValueObj())
-{
-    setNull();
-    setupProperties();
-    copyData(aSubject);
-}
-
 //=============================================================================
 // CONSTRUCTION METHODS
 //=============================================================================
 //_____________________________________________________________________________
 /**
- * Copy data members from one MuscleOptimizeTool to another.
- *
- * @param aSubject MuscleOptimizeTool to be copied.
+ * Construct properties.
  */
-void MuscleOptimizeTool::copyData(const MuscleOptimizeTool &aSubject)
+void MuscleOptimizeTool::constructProperties()
 {
-    _notes = aSubject._notes;
-    _muscleOptimizer = aSubject._muscleOptimizer;
-}
-
-//_____________________________________________________________________________
-/**
- * Set the data members of this MuscleOptimizeTool to their null values.
- */
-void MuscleOptimizeTool::setNull()
-{
-}
-
-//_____________________________________________________________________________
-/**
- * Connect properties to local pointers.
- */
-void MuscleOptimizeTool::setupProperties()
-{
-
-    _notesProp.setComment("Notes for the subject.");
-    _notesProp.setName("notes");
-    _propertySet.append(&_notesProp);
-
-    _inputModelFileNameProp.setComment("Specifies the name of the optimized model (.osim)");
-    _inputModelFileNameProp.setName("model");
-    _propertySet.append(&_inputModelFileNameProp);
-
-    _referenceModelFileNameProp.setComment("Specifies the name of the reference model(.osim)");
-    _referenceModelFileNameProp.setName("reference_model");
-    _propertySet.append(&_referenceModelFileNameProp);
-
-    _muscleOptimizerProp.setComment("Specifies parameters for optimizing the muscle parameters for the model.");
-    _muscleOptimizerProp.setName("MuscleOptimizer");
-    _propertySet.append(&_muscleOptimizerProp);
-
+    constructProperty_notes("");
+    constructProperty_model("");
+    constructProperty_reference_model("");
+    constructProperty_MuscleOptimizer(MuscleOptimizer());
 }
 
 //_____________________________________________________________________________
@@ -159,25 +95,6 @@ void MuscleOptimizeTool::registerTypes()
 }
 
 //=============================================================================
-// OPERATORS
-//=============================================================================
-//_____________________________________________________________________________
-/**
- * Assignment operator.
- *
- * @return Reference to this object.
- */
-MuscleOptimizeTool& MuscleOptimizeTool::operator=(const MuscleOptimizeTool &aSubject)
-{
-    // BASE CLASS
-    Object::operator=(aSubject);
-
-    copyData(aSubject);
-
-    return(*this);
-}
-
-//=============================================================================
 // UTILITY
 //=============================================================================
 //_____________________________________________________________________________
@@ -188,10 +105,10 @@ MuscleOptimizeTool& MuscleOptimizeTool::operator=(const MuscleOptimizeTool &aSub
  */
 Model* MuscleOptimizeTool::loadInputModel()
 {
-    cout << "Loading input subject " << _inputModelFileName << endl;
+    cout << "Loading input subject " << get_model() << endl;
     Model* model = NULL;
     try{
-        model = new Model(_inputModelFileName);
+        model = new Model(get_model());
         SimTK::State &state = model->initSystem();
 
         model->setName(getName());
@@ -211,10 +128,10 @@ Model* MuscleOptimizeTool::loadInputModel()
  */
 Model* MuscleOptimizeTool::loadReferenceModel()
 {
-    cout << "Loading reference model " << _referenceModelFileName << endl;
+    cout << "Loading reference model " << get_reference_model() << endl;
     Model* model = NULL;
     try{
-        model = new Model(_referenceModelFileName);
+        model = new Model(get_reference_model());
         SimTK::State &state = model->initSystem();
     }
     catch (const Exception& x)
@@ -226,12 +143,3 @@ Model* MuscleOptimizeTool::loadReferenceModel()
     return model;
 }
 
-void MuscleOptimizeTool::setReferenceModelFilename(const std::string refModelFilename)
-{
-    _referenceModelFileName = refModelFilename;
-}
-
-std::string MuscleOptimizeTool::getReferenceModelFilename() const
-{
-    return _referenceModelFileName;
-}

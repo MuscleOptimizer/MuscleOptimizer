@@ -20,25 +20,15 @@ namespace OpenSim {
 
     class OSIMTOOLS_API MuscleOptimizeTool : public Object {
         OpenSim_DECLARE_CONCRETE_OBJECT(MuscleOptimizeTool, Object);
-
-        //=============================================================================
-        // DATA
-        //=============================================================================
-    protected:
-
-        PropertyStr _notesProp;
-        std::string &_notes;
-
-        /** Name of the xml file used to deserialize or construct a model. */
-        PropertyStr _inputModelFileNameProp;
-        std::string &_inputModelFileName;
-
-        /** Name of the xml file used to deserialize or construct the reference model. */
-        PropertyStr _referenceModelFileNameProp;
-        std::string &_referenceModelFileName;
-
-        PropertyObj _muscleOptimizerProp;
-        MuscleOptimizer &_muscleOptimizer;
+    public:
+        OpenSim_DECLARE_PROPERTY(notes, std::string,
+            "Notes for the subject.");
+        OpenSim_DECLARE_PROPERTY(model, std::string,
+            "Specifies the name of the optimized model (.osim)");
+        OpenSim_DECLARE_PROPERTY(reference_model, std::string,
+            "Specifies the name of the reference model (.osim)");
+        OpenSim_DECLARE_UNNAMED_PROPERTY(MuscleOptimizer,
+            "Specifies parameters for optimizing the muscle parameters for the model.");
 
         /** All files in workflow are specified relative to
          * where the subject file is. Need to keep track of that in case absolute
@@ -55,23 +45,17 @@ namespace OpenSim {
     public:
         MuscleOptimizeTool();
         MuscleOptimizeTool(const std::string &aFileName) SWIG_DECLARE_EXCEPTION;
-        MuscleOptimizeTool(const MuscleOptimizeTool &aSubject);
         virtual ~MuscleOptimizeTool();
-
-#ifndef SWIG
-        MuscleOptimizeTool& operator=(const MuscleOptimizeTool &aSubject);
-#endif
-        void copyData(const MuscleOptimizeTool &aSubject);
 
         Model* loadInputModel();
         Model* loadReferenceModel();
 
-        MuscleOptimizer& getMuscleOptimizer()
+        const MuscleOptimizer& getMuscleOptimizer() const
         {
-            return _muscleOptimizer;
+            return get_MuscleOptimizer();
         }
 
-        bool isDefaultMuscleOptimizer() { return _muscleOptimizerProp.getValueIsDefault(); }
+        bool isDefaultMuscleOptimizer() { return getProperty_MuscleOptimizer().getValueIsDefault(); }
 
         /* Register types to be used when reading a MuscleOptimizeTool object from xml file. */
         static void registerTypes();
@@ -89,17 +73,14 @@ namespace OpenSim {
         {
             _pathToSubject = aPath;
         }
-        void setReferenceModelFilename(const std::string refModelFilename);
-        std::string getReferenceModelFilename() const;
         void setPrintResultFiles(bool aToWrite) {
-            _muscleOptimizer.setPrintResultFiles(aToWrite);
+            upd_MuscleOptimizer().setPrintResultFiles(aToWrite);
         }
 
     protected:
 
     private:
-        void setNull();
-        void setupProperties();
+        void constructProperties();
         //=============================================================================
     };	// END of class MuscleOptimizeTool
     //=============================================================================

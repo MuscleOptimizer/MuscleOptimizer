@@ -15,7 +15,6 @@
 #include <OpenSim/Simulation/Model/ForceSet.h>
 #include <OpenSim/Simulation/SimbodyEngine/CoordinateCouplerConstraint.h>
 #include <OpenSim/Actuators/MuscleFixedWidthPennationModel.h>
-//#include <simmath/Optimizer.h>
 #include <simmath/LinearAlgebra.h>
 
 #include <vector>
@@ -49,15 +48,10 @@ inline bool isAbsolute(const char *path) {
 /**
  * Default constructor.
  */
-MuscleOptimizer::MuscleOptimizer() :
-_apply(_applyProp.getValueBool()),
-_coordinates(_coordinatesProp.getValueStrArray()),
-_muscles(_musclesProp.getValueStrArray()),
-_nEvalPoints(_nEvalPointsProp.getValueDbl()),
-_outputModelFileName(_outputModelFileNameProp.getValueStr())
+MuscleOptimizer::MuscleOptimizer()
 {
-    setNull();
-    setupProperties();
+    constructProperties();
+    _printResultFiles = true;
 }
 
 //_____________________________________________________________________________
@@ -68,79 +62,21 @@ MuscleOptimizer::~MuscleOptimizer()
 {
 }
 
-//_____________________________________________________________________________
-/**
- * Copy constructor.
- *
- * @param aMuscleOptimizer MuscleOptimizer to be copied.
- */
-MuscleOptimizer::MuscleOptimizer(const MuscleOptimizer &aMuscleOptimizer) :
-Object(aMuscleOptimizer),
-_apply(_applyProp.getValueBool()),
-_coordinates(_coordinatesProp.getValueStrArray()),
-_muscles(_musclesProp.getValueStrArray()),
-_nEvalPoints(_nEvalPointsProp.getValueDbl()),
-_outputModelFileName(_outputModelFileNameProp.getValueStr())
-{
-    setNull();
-    setupProperties();
-    copyData(aMuscleOptimizer);
-}
 
 //=============================================================================
 // CONSTRUCTION
 //=============================================================================
 //_____________________________________________________________________________
 /**
- * Copy data members from one MuscleOptimizer to another.
- *
- * @param aMuscleOptimizer MuscleOptimizer to be copied.
+ * Construct properties.
  */
-void MuscleOptimizer::copyData(const MuscleOptimizer &aMuscleOptimizer)
+void MuscleOptimizer::constructProperties()
 {
-    _apply = aMuscleOptimizer._apply;
-    _coordinates = aMuscleOptimizer._coordinates;
-    _muscles = aMuscleOptimizer._muscles;
-    _nEvalPoints = aMuscleOptimizer._nEvalPoints;
-    _outputModelFileName = aMuscleOptimizer._outputModelFileName;
-}
-
-//_____________________________________________________________________________
-/**
- * Set the data members of this MuscleOptimizer to their null values.
- */
-void MuscleOptimizer::setNull()
-{
-    _apply = true;
-    _nEvalPoints = 10;
-    _printResultFiles = true;
-}
-
-//_____________________________________________________________________________
-/**
- * Connect properties to local pointers.
- */
-void MuscleOptimizer::setupProperties()
-{
-    _applyProp.setComment("Whether or not to use the model optimizer during optimization");
-    _applyProp.setName("apply");
-    _propertySet.append(&_applyProp);
-
-    _coordinatesProp.setComment("Specifies the coordinates (degrees of freedom) to consider (default: ALL)");
-    _coordinatesProp.setName("coordinates");
-    _propertySet.append(&_coordinatesProp);
-
-    _musclesProp.setComment("Specifies the muscles to consider (default: ALL)");
-    _musclesProp.setName("muscles");
-    _propertySet.append(&_musclesProp);
-
-    _nEvalPointsProp.setComment("Number of evaluation points for each degree of freedom");
-    _nEvalPointsProp.setName("n_evaluation_points");
-    _propertySet.append(&_nEvalPointsProp);
-
-    _outputModelFileNameProp.setComment("Name of OpenSim model file (.osim) to write when done optimizing.");
-    _outputModelFileNameProp.setName("output_model_file");
-    _propertySet.append(&_outputModelFileNameProp);
+    constructProperty_apply(true);
+    constructProperty_coordinates();
+    constructProperty_muscles();
+    constructProperty_n_evaluation_points(10);
+    constructProperty_output_model_file("");
 }
 
 //_____________________________________________________________________________
@@ -152,32 +88,13 @@ void MuscleOptimizer::registerTypes()
 }
 
 //=============================================================================
-// OPERATORS
-//=============================================================================
-//_____________________________________________________________________________
-/**
- * Assignment operator.
- *
- * @return Reference to this object.
- */
-MuscleOptimizer& MuscleOptimizer::operator=(const MuscleOptimizer &aMuscleOptimizer)
-{
-    // BASE CLASS
-    Object::operator=(aMuscleOptimizer);
-
-    copyData(aMuscleOptimizer);
-
-    return(*this);
-}
-
-//=============================================================================
 // UTILITY
 //=============================================================================
 //_____________________________________________________________________________
 bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, const std::string& aPathToSubject)
 {
 
-    if (!getApply()) return false;
+    if (!get_apply()) return false;
 
     try
     {
@@ -206,9 +123,9 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                 SimTK::State& referenceInitialState = referenceModel->initSystem();
                 SimTK::State& inputInitialState = inputModel->initSystem();
 
-                MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*referenceModel, referenceInitialState, currentMuscleName, _nEvalPoints);
+                MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*referenceModel, referenceInitialState, currentMuscleName, get_n_evaluation_points());
                 std::cout << "no of coordinates " << coordCombinations.size() << endl;
-                if (coordCombinations.size() > 0 && coordCombinations.at(0).second.size() < _nEvalPoints / 2) //just a check that the sampling did not fail
+                if (coordCombinations.size() > 0 && coordCombinations.at(0).second.size() < get_n_evaluation_points() / 2) //just a check that the sampling did not fail
                     std::cout << "WARNING! no of coordinate combinations is less than half the number of eval points" << endl;
                 std::vector<TemplateMuscleInfo> templateQuantities = sampleTemplateQuantities(*referenceModel, referenceInitialState, currentMuscleName, coordCombinations);
                 if (coordCombinations.size()>0)
@@ -246,9 +163,9 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
 
         if (_printResultFiles) {
 
-            if (!_outputModelFileNameProp.getValueIsDefault() && _outputModelFileName != "")
+            if (!getProperty_output_model_file().getValueIsDefault() && get_output_model_file() != "")
             {
-                std::string outputModelFileName = isAbsolute(_outputModelFileName.c_str()) ? _outputModelFileName : aPathToSubject + _outputModelFileName;
+                std::string outputModelFileName = isAbsolute(get_output_model_file().c_str()) ? get_output_model_file() : aPathToSubject + get_output_model_file();
                 if (inputModel->print(outputModelFileName))
                     cout << "Wrote model file " << outputModelFileName << " from model " << inputModel->getName() << endl;
             }
@@ -546,21 +463,21 @@ std::vector<double> MuscleOptimizer::generateAngleSamples(double anglesStart, do
 
 bool MuscleOptimizer::isEnabledMuscle(std::string muscleName)
 {
-    if (_musclesProp.getValueIsDefault() || _muscles.findIndex(muscleName) >= 0)
+    if (getProperty_muscles().getValueIsDefault() || getProperty_muscles().findIndex(muscleName) >= 0)
         return true;
-    if (_muscles.size() == 0)
+    if (getProperty_muscles().size() == 0)
         return true;
-    if (_muscles.size() > 0 && (_muscles.get(0) == "ALL" || _muscles.get(0) == ""))
+    if (getProperty_muscles().size() > 0 && (get_muscles(0) == "ALL" || get_muscles(0) == ""))
         return true;
     return false;
 }
 bool MuscleOptimizer::isEnabledCoordinate(std::string coordinateName)
 {
-    if (_coordinatesProp.getValueIsDefault() || _coordinates.findIndex(coordinateName) >= 0)
+    if (getProperty_coordinates().getValueIsDefault() || getProperty_coordinates().findIndex(coordinateName) >= 0)
         return true;
-    if (_coordinates.size() == 0)
+    if (getProperty_coordinates().size() == 0)
         return true;
-    if (_coordinates.size() > 0 && (_coordinates.get(0) == "ALL" || _coordinates.get(0) == ""))
+    if (getProperty_coordinates().size() > 0 && (get_coordinates(0) == "ALL" || get_coordinates(0) == ""))
         return true;
     return false;
 
