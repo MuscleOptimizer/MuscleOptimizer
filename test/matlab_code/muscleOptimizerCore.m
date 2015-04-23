@@ -76,6 +76,39 @@ for n_mus = 0:muscles.getSize-1
     %x =lsqnonneg(A, b);
     LmOptLts_opt(n_mus+1,:) = x;
 
+     if min(x)<0
+        display(['Negative value estimate for muscle parameter of muscle ',curr_mus_name]);
+        display( '                         Lm Opt        Lts'   );
+        display(['Template model       : ',num2str(LmOptLts)]);
+        display(['Optimized param      : ',num2str(LmOptLts_opt(n_mus+1,:))]);
+        % correction
+        x = lsqnonneg(A,b);
+        LmOptLts_opt(n_mus+1,:) = x;
+        display(['Optimized param      : ',num2str(LmOptLts_opt(n_mus+1,:))]);
+        %         pause
+        if x(2)==0
+            if (max(Mus_template(okList,3))-min(Mus_template(okList,3)))<0.0001
+                display('Tendon length not changing throughout range of motion')
+            end
+            % calculating proportion of tendon and fiber
+%             Lfib_fraction = LfibNormOnTen*LmOptLts(1)./MTL;
+            Lten_fraction = Mus_template(okList,3)./MTL;
+            Lten_targ = (Lten_fraction.*MTL_scaled);
+            % first round
+            A_1 = LfibNormOnTen;
+            b_1 = (MTL_scaled-Lten_targ);
+            x(1) = A_1\b_1;
+            % second round
+            b_2 = MTL_scaled-A_1*x(1);
+            A_2 = LtenNorm;
+            x(2) = A_2\b_2;
+            LmOptLts_opt(n_mus+1,:) = x;
+%             tot = Lfib_fraction+Lten_fraction;
+%             max(abs(1-tot))
+
+        end
+     end
+
     % ====== TEST1 =======
     % Does fminunc give the same results as A\b?
 %     x0 = LmOptLts';

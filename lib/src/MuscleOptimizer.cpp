@@ -154,6 +154,37 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                 qtz.solve(targetMTUlength, x);    // writes into delta also
                 //}
 
+                if (x[0] <= 0 || x[1] <= 0)
+                {
+                    std::cout << "Negative value estimate for muscle parameter of muscle " << currentMuscleName << std::endl;
+
+                    if (max(A.col(1)) - min(A.col(1)) < 0.0001)
+                        std::cout << "Tendon length not changing throughout range of motion" << std::endl;
+
+                    SimTK::Vector templateMTUlength = sampleMTULength(*referenceModel, referenceInitialState, currentMuscleName, coordCombinations);
+
+                    SimTK::Vector Lfib_targ(targetMTUlength.size());
+                    for (int i = 0; i < Lfib_targ.size(); ++i)
+                    {
+                        double Lten_fraction = A(i, 1)*referenceModel->getMuscles().get(currentMuscleName).getTendonSlackLength() / templateMTUlength(i);
+                        Lfib_targ(i) = (1 - Lten_fraction)*targetMTUlength(i);
+                    }
+                    // first round - estimate Lopt, assuming that the same proportion between fiber and tendon in kept as in reference muscle
+                    SimTK::Matrix A_1(A.col(0));
+                    // A_1. = A.col(0);
+                    SimTK::FactorQTZ qtz1(A_1);
+                    SimTK::Vector x1(1);
+                    qtz1.solve(Lfib_targ, x1);
+                    //second round - estimate Lts, calculating tendon length from previous results on fiber length
+                    SimTK::Matrix A_2(A.col(1));
+                    SimTK::Vector b_2 = targetMTUlength - (A_1*x1(0)).col(0);
+                    SimTK::FactorQTZ qtz2(A_2);
+                    SimTK::Vector x2(1);
+                    qtz2.solve(b_2, x2);    // writes into delta also
+                    x(0) = x1(0);
+                    x(1) = x2(0);
+                }
+
                 inputModel->getMuscles()[im].setOptimalFiberLength(x(0));
                 inputModel->getMuscles()[im].setTendonSlackLength(x(1));
 
