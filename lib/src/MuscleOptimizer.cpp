@@ -9,6 +9,7 @@
 #include <OpenSim/Simulation/SimbodyEngine/SimbodyEngine.h>
 #include <OpenSim/Common/MarkerData.h>
 #include <OpenSim/Common/IO.h>
+#include <OpenSim/Common/Units.h>
 #include <OpenSim/Simulation/Model/BodySet.h>
 #include <OpenSim/Simulation/Model/MarkerSet.h>
 #include <OpenSim/Simulation/Model/Marker.h>
@@ -76,6 +77,7 @@ void MuscleOptimizer::constructProperties()
     constructProperty_coordinates();
     constructProperty_muscles();
     constructProperty_n_evaluation_points(10);
+    constructProperty_min_degrees_increment(2.5);
     constructProperty_output_model_file("");
 }
 
@@ -444,18 +446,8 @@ MuscleOptimizer::CoordinateCombinations MuscleOptimizer::sampleROMsForMuscle(Mod
             }
         }
 
-        int nEvalPerJoint;
-        if (actualDofsPerJoint > 2)
-        {
-            nEvalPerJoint = (double)nEval / 2;
-            std::cout << "Changing nr of evaluation points for Lm norm from " << nEval;
-            std::cout << " to " << nEvalPerJoint << " for joint " << crossedJoints[jointInd] << std::endl;
-        }
-        else
-            nEvalPerJoint = nEval;
-
         for (unsigned int iActualDof = 0; iActualDof < actualDofsPerJoint; ++iActualDof)
-            nEvalPerDof.push_back(nEvalPerJoint);
+            nEvalPerDof.push_back(nEval);
     }
 
 
@@ -482,6 +474,11 @@ std::vector<double> MuscleOptimizer::generateAngleSamples(double anglesStart, do
     while (sampleCounter < totalSamples)
     {
         double degIncrement = (anglesEnd - anglesStart) / (noEval - 1);
+        OpenSim::Units degrees(OpenSim::Units::Degrees);
+        double min_radians_increment = degrees.convertTo(OpenSim::Units::Radians, get_min_degrees_increment());
+        if (get_min_degrees_increment() > 0 && degIncrement < min_radians_increment)
+            degIncrement = min_radians_increment;
+
         for (unsigned int evalInd = 0; evalInd < noEval; ++evalInd)
         {
             for (unsigned multInd = 0; multInd < multeplicity; ++multInd)

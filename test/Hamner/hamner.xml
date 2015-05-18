@@ -17,6 +17,8 @@
             <muscles> </muscles>
             <!--Number of evaluation points for each degree of freedom-->
             <n_evaluation_points>10</n_evaluation_points>
+            <!--Minimum degree interval when sampling a degree of freedom (<=0 -> no limit check). Default value: 2.5 (degrees)-->
+            <min_degrees_increment>2.5</min_degrees_increment>
             <output_model_file>output_cpp/cpp_Optimized_Hamner_Scaled_adj_rangeROM_L.osim</output_model_file>
         </MuscleOptimizer>
     </MuscleOptimizeTool>

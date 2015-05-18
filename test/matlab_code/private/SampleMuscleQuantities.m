@@ -1,6 +1,7 @@
 %__________________________________________________________________________
 % Author: Luca Modenese, March 2013
-%                        revised July 2014
+%                        revised July 2014 (improved management of joints)
+%                        modified May 2015 (management of max resolution)
 % email: l.modenese@griffith.edu.au
 % DO NOT REDISTRIBUTE WITHOUT PERMISSION
 %__________________________________________________________________________
@@ -34,6 +35,13 @@
 % old state (important for Schutte muscles for instance).
 
 function musOutput = SampleMuscleQuantities(osimModel,OSMuscle,muscleQuant, N_EvalPoints)
+
+%======= SETTINGS ======
+% limit (1) or not (0) the discretization of the joint space sampling
+limit_discr = 0;
+% minimum angular discretization
+min_increm_in_deg = 2.5;
+%=======================
 
 % initialize the model
 currentState = osimModel.initSystem();
@@ -112,14 +120,17 @@ for n_joint = 1:size(muscleCrossedJointSet,2)
         CoordinateBoundaries(n_dof) = {jointRange}; %#ok<AGROW,NASGU>
 
         % increments in the variables when sampling the mtl space.
-        % Increments are different for each dof.
-        if  effect_DOF>=3 && n_coord==0
-            N_EvalPoints_old = N_EvalPoints;
-            N_EvalPoints = round(N_EvalPoints_old/2);
-%           display(['Changing nr of evaluation points for Lm norm from ', num2str(N_EvalPoints_old),' to ',num2str(N_EvalPoints),'...']);
+        % Increments are different for each dof and based on N_eval.
+        %Defining the increments
+        degIncrem(n_dof) = (jointRange(2)-jointRange(1))/(N_EvalPoints-1);
+
+        % limit or not the discretization of the joint space sampling
+        if limit_discr==1
+            % a limit to the increase can be set though
+            if degIncrem(n_dof)<(min_increm_in_deg/180*pi)
+                degIncrem(n_dof)=(min_increm_in_deg/180*pi); %#ok<*AGROW>
+            end
         end
-        % Defining the increments
-        degIncrem(n_dof) = (jointRange(2)-jointRange(1))/(N_EvalPoints-1); %#ok<AGROW,NASGU>
 
         % updating index of list of dof
         n_dof = n_dof+1;

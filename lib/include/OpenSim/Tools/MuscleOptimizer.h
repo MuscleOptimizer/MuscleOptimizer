@@ -39,6 +39,8 @@ namespace OpenSim {
             "Specifies the muscles to consider (default: ALL)");
         OpenSim_DECLARE_PROPERTY(n_evaluation_points, double,
             "Number of evaluation points for each degree of freedom");
+        OpenSim_DECLARE_PROPERTY(min_degrees_increment, double,
+            "Minimum degree interval when sampling a degree of freedom(<= 0->no limit check).Default value : 2.5 (degrees)");
         OpenSim_DECLARE_PROPERTY(output_model_file, std::string,
             "Name of OpenSim model file (.osim) to write when done optimizing.");
 
