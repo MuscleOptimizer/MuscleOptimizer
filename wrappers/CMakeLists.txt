@@ -7,7 +7,7 @@ if(SWIG_FOUND AND JAVA_FOUND AND JNI_FOUND)
 
     include(${SWIG_USE_FILE})
     set(CMAKE_SWIG_FLAGS "-package;org.opensim.muscleoptimizer;-Wall")
-    set(CMAKE_SWIG_OUTDIR "${CMAKE_SOURCE_DIR}/Gui/muscleoptimizerGUI/src/org/opensim/muscleoptimizer")
+    set(CMAKE_SWIG_OUTDIR "${CMAKE_SOURCE_DIR}/Gui/src/org/opensim/muscleoptimizer")
 
     include_directories(${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2})
     include_directories(${muscleOptimizeTool_INCLUDE_DIRS})
