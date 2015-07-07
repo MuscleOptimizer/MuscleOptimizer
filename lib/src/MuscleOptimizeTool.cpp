@@ -105,7 +105,6 @@ void MuscleOptimizeTool::registerTypes()
  */
 Model* MuscleOptimizeTool::loadInputModel()
 {
-    cout << "Loading input subject " << get_model() << endl;
     Model* model = NULL;
     try{
         model = new Model(get_model());
@@ -128,7 +127,6 @@ Model* MuscleOptimizeTool::loadInputModel()
  */
 Model* MuscleOptimizeTool::loadReferenceModel()
 {
-    cout << "Loading reference model " << get_reference_model() << endl;
     Model* model = NULL;
     try{
         model = new Model(get_reference_model());

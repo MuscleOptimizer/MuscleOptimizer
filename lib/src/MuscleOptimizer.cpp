@@ -100,7 +100,6 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
 
     try
     {
-        std::cout << "input Model Name: " << inputModel->getName() << ", ref model name: " << referenceModel->getName() << std::endl;
         OpenSim::Array<std::string> musclesInput, musclesReference;
         referenceModel->getMuscles().getNames(musclesReference);
         inputModel->getMuscles().getNames(musclesInput);
@@ -120,22 +119,26 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
             std::string currentMuscleName = musclesInput[im];
             if (isEnabledMuscle(currentMuscleName))
             {
-                std::cout << "Optimizing " << currentMuscleName << endl;
+                std::cout << "Optimizing muscle: " << currentMuscleName << "; ";
                 // Reset models' poses
                 SimTK::State& referenceInitialState = referenceModel->initSystem();
                 SimTK::State& inputInitialState = inputModel->initSystem();
 
                 MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*referenceModel, referenceInitialState, currentMuscleName, get_n_evaluation_points());
-                std::cout << "no of coordinates " << coordCombinations.size() << endl;
                 if (coordCombinations.size()>0)
-                    std::cout << "no of combinations " << coordCombinations.at(0).second.size() << endl;
+                {
+                    std::cout << "using coordinates [ ";
+                    for (auto& cit : coordCombinations)
+                        std::cout << cit.first << " ";
+                    std::cout << "], total no. of combinations " << coordCombinations.at(0).second.size() << endl;
+                }
                 else
                 {
-                    std::cout << "No coordinates for " << currentMuscleName << ", skipping optimization" << std::endl;
+                    std::cout << "no coordinates for " << currentMuscleName << ", skipping optimization" << std::endl;
                     continue;
                 }
                 if (coordCombinations.size() > 0 && coordCombinations.at(0).second.size() < get_n_evaluation_points() / 2) //just a check that the sampling did not fail
-                    std::cout << "WARNING! no of coordinate combinations is less than half the number of eval points" << endl;
+                    std::cout << "WARNING! no. of coordinate combinations is less than half the number of eval points" << endl;
                 std::vector<TemplateMuscleInfo> templateQuantities = sampleTemplateQuantities(*referenceModel, referenceInitialState, currentMuscleName, coordCombinations);
 
 
@@ -148,19 +151,10 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                     A(i, 1) = templateQuantities.at(i).normalizedTendonLength;
                 }
 
-                //tmp:
-                //std::cout << A << std::endl;
-                //std::cout << targetMTUlength << std::endl;
-
                 SimTK::Vector x;
-
-                //SimTK::FactorLU lu(A);
-                //if (!lu.isSingular())
-                //    lu.solve(targetMTUlength, x);     // writes into delta also
-                //else {
                 SimTK::FactorQTZ qtz(A);
-                qtz.solve(targetMTUlength, x);    // writes into delta also
-                //}
+                qtz.solve(targetMTUlength, x);
+
 
                 if (x[0] <= 0 || x[1] <= 0)
                 {
@@ -179,7 +173,6 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                     }
                     // first round - estimate Lopt, assuming that the same proportion between fiber and tendon in kept as in reference muscle
                     SimTK::Matrix A_1(A.col(0));
-                    // A_1. = A.col(0);
                     SimTK::FactorQTZ qtz1(A_1);
                     SimTK::Vector x1(1);
                     qtz1.solve(Lfib_targ, x1);
@@ -188,7 +181,7 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                     SimTK::Vector b_2 = targetMTUlength - (A_1*x1(0)).col(0);
                     SimTK::FactorQTZ qtz2(A_2);
                     SimTK::Vector x2(1);
-                    qtz2.solve(b_2, x2);    // writes into delta also
+                    qtz2.solve(b_2, x2);
                     x(0) = x1(0);
                     x(1) = x2(0);
                 }
@@ -292,7 +285,7 @@ SimTK::Vector MuscleOptimizer::sampleMTULength(Model& model, SimTK::State& si, c
     if (coordinateCombinations.size() < 1)
         return SimTK::Vector();
 
-    //TODO: check that all columns have the same lenght
+    //TODO: check that all columns have the same length
     SimTK::Vector mtuLength(coordinateCombinations.at(0).second.size()); //output variable
 
     model.getMuscles().get(muscleName).setActivation(si, 1.0);
@@ -437,7 +430,6 @@ MuscleOptimizer::CoordinateCombinations MuscleOptimizer::sampleROMsForMuscle(Mod
                         CoordinateCombinations::iterator foundCoord = std::find_if(result.begin(), result.end(), key_compare(indepCoordName));
                         if (foundCoord == result.end() && !model.getCoordinateSet().get(indepCoordName).getLocked(si))
                         {
-                            std::cout << " pushing back " << indepCoordName << std::endl;
                             result.push_back(std::pair<string, vector<double> >(indepCoordName, vector<double>()));
                             actualDofsPerJoint++;
                         }
@@ -445,7 +437,6 @@ MuscleOptimizer::CoordinateCombinations MuscleOptimizer::sampleROMsForMuscle(Mod
                 }
                 else
                 {
-                    std::cout << " pushing back " << coordinatesForCurrentJoint.get(iDof).getName() << std::endl;
                     result.push_back(std::pair<string, vector<double> >(coordinatesForCurrentJoint.get(iDof).getName(), vector<double>()));
                     actualDofsPerJoint++;
                 }
