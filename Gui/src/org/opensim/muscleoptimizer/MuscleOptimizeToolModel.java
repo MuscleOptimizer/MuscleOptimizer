@@ -11,6 +11,7 @@ import org.netbeans.api.progress.ProgressHandleFactory;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.Cancellable;
+import org.opensim.modeling.ArrayStr;
 import org.opensim.modeling.Model;
 import org.opensim.modeling.OpenSimContext;
 import org.opensim.swingui.SwingWorker;
@@ -42,6 +43,7 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
 
     static {
     System.loadLibrary("muscleOptimizerJ");
+    MuscleOptimizeTool.registerTypes();
   }
     /**
      * @return the originalModel
@@ -91,7 +93,8 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
             processedModelContext = OpenSimDB.getInstance().createContext(processedModel);
 
             if(referenceModel!=null)
-             if (!optimizeTool.getMuscleOptimizer().processModel(processedModel, referenceModel)){
+                //TODO: check if I should use the pathToSubject or not, to save output files
+             if (!optimizeTool.getMuscleOptimizer().processModel(processedModel, referenceModel, optimizeTool.get_pathToSubject())){
                result = false;
                return this;
             }
@@ -126,7 +129,7 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
    //========================================================================
 
 
-   enum Operation { AllDataChanged, SubjectDataChanged, MarkerSetChanged, MeasurementSetChanged, ModelOptimizerDataChanged, MarkerPlacerDataChanged, ExecutionStateChanged };
+   enum Operation { AllDataChanged, SubjectDataChanged, CoordinatesChanged, MuscleOptimizerDataChanged, MusclesChanged, ExecutionStateChanged };
 
    private MuscleOptimizeTool optimizeTool = null;
    private Model originalModel = null;
@@ -270,7 +273,7 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
    public void setMuscleOptimizerEnabled(boolean enabled) {
       if(getMuscleOptimizerEnabled() != enabled) {
          optimizeTool.getMuscleOptimizer().set_apply(enabled);
-         setModified(Operation.ModelOptimizerDataChanged);
+         setModified(Operation.MuscleOptimizerDataChanged);
       }
    }
    public boolean getMuscleOptimizerEnabled() {
@@ -280,6 +283,7 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
    public void setNumberOfEvaluationPoints(double npoints)
    {
        optimizeTool.getMuscleOptimizer().set_n_evaluation_points(npoints);
+       setModified(Operation.MuscleOptimizerDataChanged);
    }
 
    public double getNumberOfEvaluationPoints()
@@ -290,11 +294,34 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
    public void setMinimumDegreesIncrement(double minIncrement)
    {
        optimizeTool.getMuscleOptimizer().set_min_degrees_increment(minIncrement);
+       setModified(Operation.MuscleOptimizerDataChanged);
    }
 
    public double getMinimumDegreesIncrement()
    {
        return optimizeTool.getMuscleOptimizer().get_min_degrees_increment();
+   }
+
+   public void setCoordinates(ArrayStr coords)
+   {
+       optimizeTool.getMuscleOptimizer().setCoordinates(coords);
+       setModified(Operation.CoordinatesChanged);
+   }
+
+   public ArrayStr getCoordinates()
+   {
+       return optimizeTool.getMuscleOptimizer().getCoordinates();
+   }
+
+   public void setMuscles(ArrayStr muscles)
+   {
+       optimizeTool.getMuscleOptimizer().setMuscles(muscles);
+       setModified(Operation.MusclesChanged);
+   }
+
+   public ArrayStr getMuscles()
+   {
+       return optimizeTool.get_MuscleOptimizer().getMuscles();
    }
 
    //------------------------------------------------------------------------
@@ -311,7 +338,7 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
          return false;
       }
       optimizeTool = newOptimizeTool;
-      referenceModel=optimizeTool.loadReferenceModel();
+      //referenceModel=optimizeTool.loadReferenceModel();
 
       // keep internal data in sync
       modifiedSinceLastExecute = true;

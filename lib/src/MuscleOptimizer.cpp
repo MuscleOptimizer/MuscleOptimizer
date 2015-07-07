@@ -127,11 +127,17 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
 
                 MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*referenceModel, referenceInitialState, currentMuscleName, get_n_evaluation_points());
                 std::cout << "no of coordinates " << coordCombinations.size() << endl;
+                if (coordCombinations.size()>0)
+                    std::cout << "no of combinations " << coordCombinations.at(0).second.size() << endl;
+                else
+                {
+                    std::cout << "No coordinates for " << currentMuscleName << ", skipping optimization" << std::endl;
+                    continue;
+                }
                 if (coordCombinations.size() > 0 && coordCombinations.at(0).second.size() < get_n_evaluation_points() / 2) //just a check that the sampling did not fail
                     std::cout << "WARNING! no of coordinate combinations is less than half the number of eval points" << endl;
                 std::vector<TemplateMuscleInfo> templateQuantities = sampleTemplateQuantities(*referenceModel, referenceInitialState, currentMuscleName, coordCombinations);
-                if (coordCombinations.size()>0)
-                    std::cout << "no of combinations " << coordCombinations.at(0).second.size() << endl;
+
 
                 SimTK::Vector targetMTUlength = sampleMTULength(*inputModel, inputInitialState, currentMuscleName, coordCombinations);
 
@@ -508,5 +514,46 @@ bool MuscleOptimizer::isEnabledCoordinate(std::string coordinateName)
     if (getProperty_coordinates().size() > 0 && (get_coordinates(0) == "ALL" || get_coordinates(0) == ""))
         return true;
     return false;
+
+}
+
+// TEMPORARY WORKAROUNDS FOR GETTING/SETTING LIST PROPERTIES
+Array<std::string> MuscleOptimizer::getCoordinates()
+{
+    const Property<std::string>& coordProp = getProperty_coordinates();
+    Array<std::string> coordList;
+    coordList.ensureCapacity(coordProp.size());
+    for (int i = 0; i < coordProp.size(); ++i)
+        coordList.append(coordProp[i]);
+    return coordList;
+}
+
+void MuscleOptimizer::setCoordinates(const Array<std::string>& newCoords)
+{
+    Property<std::string>& coordProp= updProperty_coordinates();
+
+    coordProp.clear();
+    for (int i = 0; i < newCoords.size(); ++i)
+        coordProp.appendValue(newCoords[i]);
+
+}
+
+Array<std::string> MuscleOptimizer::getMuscles()
+{
+    const Property<std::string>& muscProp = getProperty_muscles();
+    Array<std::string> muscList;
+    muscList.ensureCapacity(muscProp.size());
+    for (int i = 0; i < muscProp.size(); ++i)
+        muscList.append(muscProp[i]);
+    return muscList;
+}
+
+void MuscleOptimizer::setMuscles(const Array<std::string>& newMuscles)
+{
+    Property<std::string>& muscProp = updProperty_muscles();
+
+    muscProp.clear();
+    for (int i = 0; i < newMuscles.size(); ++i)
+        muscProp.appendValue(newMuscles[i]);
 
 }

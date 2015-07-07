@@ -24,7 +24,7 @@ namespace OpenSim {
         OpenSim_DECLARE_PROPERTY(notes, std::string,
             "Notes for the subject.");
         OpenSim_DECLARE_PROPERTY(model, std::string,
-            "Specifies the name of the optimized model (.osim)");
+            "Specifies the name of the input model (.osim)");
         OpenSim_DECLARE_PROPERTY(reference_model, std::string,
             "Specifies the name of the reference model (.osim)");
         OpenSim_DECLARE_UNNAMED_PROPERTY(MuscleOptimizer,
@@ -34,7 +34,7 @@ namespace OpenSim {
          * where the subject file is. Need to keep track of that in case absolute
          * path is needed later
          */
-        std::string	 _pathToSubject;
+        std::string _pathToSubject;
 
         //=============================================================================
         // METHODS
@@ -50,9 +50,9 @@ namespace OpenSim {
         Model* loadInputModel();
         Model* loadReferenceModel();
 
-        const MuscleOptimizer& getMuscleOptimizer() const
+        MuscleOptimizer& getMuscleOptimizer()
         {
-            return get_MuscleOptimizer();
+            return upd_MuscleOptimizer();
         }
 
         bool isDefaultMuscleOptimizer() { return getProperty_MuscleOptimizer().getValueIsDefault(); }

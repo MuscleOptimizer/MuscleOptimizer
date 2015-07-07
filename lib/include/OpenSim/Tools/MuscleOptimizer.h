@@ -68,6 +68,14 @@ namespace OpenSim {
         void setPrintResultFiles(bool aToWrite) { _printResultFiles = aToWrite; }
         typedef std::vector< std::pair< std::string, std::vector<double> > > CoordinateCombinations;
         CoordinateCombinations sampleROMsForMuscle(Model& model, SimTK::State& si, const std::string& muscleName, unsigned int nEval);
+
+        // TEMPORARY WORKAROUNDS FOR GETTING/SETTING LIST PROPERTIES
+        Array<std::string> getCoordinates();
+        void setCoordinates(const Array<std::string>& newCoords);
+
+        Array<std::string> getMuscles();
+        void setMuscles(const Array<std::string>& newMuscles);
+
     private:
         struct TemplateMuscleInfo
         {

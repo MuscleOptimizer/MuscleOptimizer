@@ -20,6 +20,7 @@ import javax.swing.JCheckBox;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.opensim.modeling.ArrayStr;
 import org.opensim.modeling.Model;
 import org.opensim.swingui.ComponentTitledBorder;
 import org.opensim.utils.BrowserLauncher;
@@ -30,7 +31,8 @@ import org.opensim.view.pub.OpenSimDB;
 public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel implements Observer {
 
    private MuscleOptimizeToolModel optimizeToolModel = null;
-
+   private QuantityNameFilterCoordinatePanel coordPanel=null;
+   private QuantityNameFilterMusclePanel musclePanel=null;
    private JCheckBox modelOptimizerPanelCheckBox = new JCheckBox(new EnableMuscleOptimizerAction());
    private NumberFormat numFormat = NumberFormat.getInstance();
 
@@ -55,7 +57,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
 
             public void actionPerformed(ActionEvent ae) {
                 //TODO add help
-                //String path = BrowserLauncher.isConnected() ? "http://simtk-confluence.stanford.edu:8080/display/OpenSim30/Scaling" : TheApp.getUsersGuideDir() +  "Scaling.html";
+                //String path = BrowserLauncher.isConnected() ? "http://MOwebsite" : TheApp.getUsersGuideDir() +  "OptimizingMuscleParameters.html";
                 //BrowserLauncher.openURL(path);
             }
       });
@@ -63,6 +65,10 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
       initComponents();
       bindPropertiesToComponents();
 
+      coordPanel=new QuantityNameFilterCoordinatePanel(optimizeToolModel);
+      musclePanel= new QuantityNameFilterMusclePanel(optimizeToolModel);
+      jTabbedPane.addTab("Coordinates", coordPanel);
+      jTabbedPane.addTab("Muscles", musclePanel) ;
       referenceModelPath.setExtensionsAndDescription(".osim", "Reference OpenSim model");
       outputOptimizedModelFilePath.setExtensionsAndDescription(".osim", "Output OpenSim model");
       outputOptimizedModelFilePath.setSaveMode(true);
@@ -157,6 +163,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        editMuscleList1 = new javax.swing.JLabel();
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         modelOptimizerPanel = new javax.swing.JPanel();
@@ -169,6 +176,9 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
         outputPanel = new javax.swing.JPanel();
         optimizedModelFileLabel = new javax.swing.JLabel();
         outputOptimizedModelFilePath = new org.opensim.swingui.FileTextFieldAndChooser();
+
+        editMuscleList1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        editMuscleList1.setText("Muscles");
 
         modelOptimizerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Optimize Muscles"));
 
@@ -221,7 +231,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
                 .add(refModelLabel)
                 .add(28, 28, 28)
                 .add(referenceModelPath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 414, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .add(modelOptimizerPanelLayout.createSequentialGroup()
                 .add(nEvalPointsLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 144, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
@@ -287,19 +297,19 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(modelOptimizerPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(outputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(modelOptimizerPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(outputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(24, 24, 24)
                 .add(modelOptimizerPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(18, 18, Short.MAX_VALUE)
                 .add(outputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         modelOptimizerPanel.getAccessibleContext().setAccessibleName("");
@@ -313,7 +323,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 670, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -327,10 +337,24 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
         optimizeToolModel.getOptimizeTool().getMuscleOptimizer().set_output_model_file(outputOptimizedModelFilePath.getFileName());
     }//GEN-LAST:event_outputOptimizedModelFilePathStateChanged
 
+    private void minIncrementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minIncrementActionPerformed
+        try {
+            double minIncrementValue= numFormat.parse(minIncrement.getText()).doubleValue();
+            optimizeToolModel.setMinimumDegreesIncrement(minIncrementValue);
+        } catch (ParseException ex) { // To catch parsing problems (string -> double)
+            Toolkit.getDefaultToolkit().beep();
+            double minIncrementOld = optimizeToolModel.getMinimumDegreesIncrement();
+            minIncrement.setText(numFormat.format(minIncrementOld));
+        }
+    }//GEN-LAST:event_minIncrementActionPerformed
+
+    private void minIncrementFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minIncrementFocusLost
+        if(!evt.isTemporary()) minIncrementActionPerformed(null);
+    }//GEN-LAST:event_minIncrementFocusLost
+
     private void referenceModelPathStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_referenceModelPathStateChanged
         // TODO add your handling code here:
         optimizeToolModel.updateReferenceModel(referenceModelPath.getFileName());
-
     }//GEN-LAST:event_referenceModelPathStateChanged
 
     private void nEvalPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nEvalPointsActionPerformed
@@ -348,26 +372,12 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
         if(!evt.isTemporary()) nEvalPointsActionPerformed(null);
     }//GEN-LAST:event_nEvalPointsFocusLost
 
-    private void minIncrementFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minIncrementFocusLost
-        if(!evt.isTemporary()) minIncrementActionPerformed(null);
-    }//GEN-LAST:event_minIncrementFocusLost
-
-    private void minIncrementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minIncrementActionPerformed
-        try {
-            double minIncrementValue= numFormat.parse(minIncrement.getText()).doubleValue();
-            optimizeToolModel.setMinimumDegreesIncrement(minIncrementValue);
-        } catch (ParseException ex) { // To catch parsing problems (string -> double)
-            Toolkit.getDefaultToolkit().beep();
-            double minIncrementOld = optimizeToolModel.getMinimumDegreesIncrement();
-            minIncrement.setText(numFormat.format(minIncrementOld));
-        }
-    }//GEN-LAST:event_minIncrementActionPerformed
-
    //------------------------------------------------------------------------
    // Local variables
    //------------------------------------------------------------------------
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel editMuscleList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField minIncrement;
