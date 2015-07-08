@@ -23,7 +23,10 @@ if(SWIG_FOUND AND JAVA_FOUND AND JNI_FOUND)
         swig_link_libraries(muscleOptimizerJ muscleOptimizeTool)
         set_target_properties(muscleOptimizerJ PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) # don't know exactly why I have to do this for swig targets
                                                                                                          # (apparently DLLs are considered library, not runtime)
-
+        add_custom_command(TARGET muscleOptimizerJ POST_BUILD
+                            COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:muscleOptimizerJ>"
+                                    "${CMAKE_SOURCE_DIR}/Gui/release/modules/lib/$<TARGET_FILE_NAME:muscleOptimizerJ>"
+                            COMMENT "Copying to output directory")
     else()
         message(WARNING "Could not locate Opensim's source directory, please download the source tree and set the OPENSIM_SOURCE environment variable pointing to it")
     endif()
