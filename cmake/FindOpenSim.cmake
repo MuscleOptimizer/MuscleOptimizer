@@ -5,10 +5,11 @@
 #  SIMTK_INCLUDE_DIRS - The SimTK include directories
 #  OpenSim_LIBRARIES - The libraries needed to use Opensim
 
-find_package(OpenSim NO_MODULE QUIET) # todo: check if required, verbose etc.
-if(OpenSim_FOUND)
-  return()
-endif()
+## Disabled "Config" search since OpenSim 3.2 does not support it, re-enable these lines for Opensim 4.0
+#find_package(OpenSim NO_MODULE QUIET) # todo: check if required, verbose etc.
+#if(OpenSim_FOUND)
+#  return()
+#endif()
 
 set(OPENSIM_POSSIBLE_DIRECTORIES
     ~/Programs/opensim
