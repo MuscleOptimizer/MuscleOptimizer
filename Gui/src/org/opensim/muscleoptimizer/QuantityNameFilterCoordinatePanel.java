@@ -135,6 +135,8 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
         jSelectAllCheckBox = new javax.swing.JCheckBox();
         jDeselectAllCheckBox = new javax.swing.JCheckBox();
 
+        setPreferredSize(new java.awt.Dimension(300, 300));
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -167,7 +169,7 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
                 .addContainerGap())
         );
 
-        FilterTextField.setToolTipText("use '.*' for wildcard, add patterns with '|' and press Apply");
+        FilterTextField.setToolTipText("Regular expression. Use '.*' for wildcard, add patterns with '|' ");
 
         jLabel1.setText("Filter by pattern");
 
@@ -201,6 +203,9 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
                     .add(jShowAllButton))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        FilterTextField.getAccessibleContext().setAccessibleName("");
+        FilterTextField.getAccessibleContext().setAccessibleDescription("Regular expression. Use '.*' for wildcard, add patterns with '|' ");
 
         jSelectAllCheckBox.setText("select all shown");
         jSelectAllCheckBox.setToolTipText("select all shown quantities");
@@ -245,12 +250,12 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
                 .addContainerGap()
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 274, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(jSelectAllCheckBox)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jDeselectAllCheckBox))
                     .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
