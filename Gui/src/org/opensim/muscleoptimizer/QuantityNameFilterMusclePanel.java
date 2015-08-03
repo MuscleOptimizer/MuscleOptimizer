@@ -39,7 +39,6 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
    private String   pattern="";
    private Model currentModel=null;
    ArrayList<String> metaCharacters=new ArrayList<String>();
-   private boolean sumOnly=false;
 
    public QuantityNameFilterMusclePanel(MuscleOptimizeToolModel optimizeToolModel) {
        initComponents();
@@ -144,7 +143,6 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jNumSelectedLabel = new javax.swing.JLabel();
-        jSumCheckBox = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         FilterTextField = new javax.swing.JFormattedTextField();
         jMuscleGroupComboBox = new javax.swing.JComboBox();
@@ -161,32 +159,19 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
 
         jNumSelectedLabel.setText("0 items selected");
 
-        jSumCheckBox.setText("sum only");
-        jSumCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jSumCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jSumCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSumCheckBoxActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jSumCheckBox)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(197, Short.MAX_VALUE)
                 .add(jNumSelectedLabel)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jNumSelectedLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .add(jSumCheckBox))
+                .add(jNumSelectedLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -344,12 +329,6 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-   private void jSumCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSumCheckBoxActionPerformed
-// TODO add your handling code here:
-       setSumOnly(((JCheckBox)evt.getSource()).isSelected());
-       tableModel.fireTableDataChanged();
-   }//GEN-LAST:event_jSumCheckBoxActionPerformed
-
     private void jMuscleGroupComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMuscleGroupComboBoxActionPerformed
 // TODO add your handling code here:
         JComboBox cb = (JComboBox)evt.getSource();
@@ -492,7 +471,6 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox jSelectAllCheckBox;
     private javax.swing.JButton jShowAllButton;
-    private javax.swing.JCheckBox jSumCheckBox;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
@@ -521,14 +499,8 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
       return regex;
     }
 
-     String getSelectedAsString() {
-         if (sumOnly){
-             String names =  tableModel.getSelectedAsString();
-             String rep=names.replaceAll(", ", "+");
-             return rep;
-         }
-         else
-            return tableModel.getSelectedAsString();
+    String getSelectedAsString() {
+        return tableModel.getSelectedAsString();
     }
 
     public String getPattern() {
@@ -592,14 +564,6 @@ public class QuantityNameFilterMusclePanel extends javax.swing.JPanel
         boolean usePattern= (currentFilter == QuantityNameFilterMusclePanel.FilterBy.RegularExpression);
         jMuscleGroupComboBox.setEnabled(!usePattern);
         FilterTextField.setEnabled(usePattern);
-    }
-
-    public boolean isSumOnly() {
-        return sumOnly;
-    }
-
-    public void setSumOnly(boolean sumOnly) {
-        this.sumOnly = sumOnly;
     }
 
     public void addSelectionChangeListener(TableModelListener l)
