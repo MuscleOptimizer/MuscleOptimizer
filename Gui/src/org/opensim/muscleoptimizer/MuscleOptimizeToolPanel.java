@@ -114,6 +114,9 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
    public void updateFromModel() {
 
       Model unoptimizedModel = optimizeToolModel.getUnoptimizedModel(); //ndElena: I might need this for the joints/muscles list
+      unoptimizedModelNameTextField.setText(unoptimizedModel.getName());
+      unoptimizedModelCoordsTextField.setText(numFormat.format(unoptimizedModel.getNumCoordinates()));
+      unoptimizedModelMusclesTextField.setText(numFormat.format(unoptimizedModel.getMuscles().getSize()));
       //---------------------------------------------------------------------
       // Model optimizer
       //---------------------------------------------------------------------
@@ -176,11 +179,18 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
         outputPanel = new javax.swing.JPanel();
         optimizedModelFileLabel = new javax.swing.JLabel();
         outputOptimizedModelFilePath = new org.opensim.swingui.FileTextFieldAndChooser();
+        currentModelDataPanel = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        unoptimizedModelNameTextField = new javax.swing.JTextField();
+        unoptimizedModelCoordsTextField = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        unoptimizedModelMusclesTextField = new javax.swing.JTextField();
 
         editMuscleList1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         editMuscleList1.setText("Muscles");
 
-        setPreferredSize(new java.awt.Dimension(450, 286));
+        setPreferredSize(new java.awt.Dimension(450, 330));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 247));
 
@@ -287,7 +297,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
                 .addContainerGap()
                 .add(optimizedModelFileLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(outputOptimizedModelFilePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .add(outputOptimizedModelFilePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(5, 5, 5))
         );
         outputPanelLayout.setVerticalGroup(
@@ -297,28 +307,86 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
                 .add(outputPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(optimizedModelFileLabel)
                     .add(outputOptimizedModelFilePath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        currentModelDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Current Model Data"));
+        currentModelDataPanel.setName("CurrentModelData"); // NOI18N
+
+        jLabel13.setText("Model name");
+
+        unoptimizedModelNameTextField.setEditable(false);
+        unoptimizedModelNameTextField.setMinimumSize(new java.awt.Dimension(3, 20));
+
+        unoptimizedModelCoordsTextField.setEditable(false);
+        unoptimizedModelCoordsTextField.setMinimumSize(new java.awt.Dimension(3, 20));
+
+        jLabel14.setText("Number of coordinates");
+
+        jLabel16.setText("Number of muscles");
+
+        unoptimizedModelMusclesTextField.setEditable(false);
+        unoptimizedModelMusclesTextField.setMinimumSize(new java.awt.Dimension(3, 20));
+
+        org.jdesktop.layout.GroupLayout currentModelDataPanelLayout = new org.jdesktop.layout.GroupLayout(currentModelDataPanel);
+        currentModelDataPanel.setLayout(currentModelDataPanelLayout);
+        currentModelDataPanelLayout.setHorizontalGroup(
+            currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(currentModelDataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(jLabel13)
+                    .add(jLabel14)
+                    .add(jLabel16))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(unoptimizedModelNameTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(currentModelDataPanelLayout.createSequentialGroup()
+                        .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, unoptimizedModelMusclesTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, unoptimizedModelCoordsTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(0, 0, Short.MAX_VALUE)))
+                .add(5, 5, 5))
+        );
+        currentModelDataPanelLayout.setVerticalGroup(
+            currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(currentModelDataPanelLayout.createSequentialGroup()
+                .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel13)
+                    .add(unoptimizedModelNameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel14)
+                    .add(unoptimizedModelCoordsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(currentModelDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel16)
+                    .add(unoptimizedModelMusclesTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(modelOptimizerPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-                    .add(outputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(currentModelDataPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, modelOptimizerPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, outputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(80, 80, 80)
+                .addContainerGap()
+                .add(currentModelDataPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(modelOptimizerPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(outputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         modelOptimizerPanel.getAccessibleContext().setAccessibleName("ReferenceModel");
@@ -338,7 +406,7 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabbedPane))
+                .add(jTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -386,7 +454,11 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
    //------------------------------------------------------------------------
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel currentModelDataPanel;
     private javax.swing.JLabel editMuscleList1;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField minIncrement;
@@ -399,6 +471,9 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
     private javax.swing.JPanel outputPanel;
     private javax.swing.JLabel refModelLabel;
     private org.opensim.swingui.FileTextFieldAndChooser referenceModelPath;
+    private javax.swing.JTextField unoptimizedModelCoordsTextField;
+    private javax.swing.JTextField unoptimizedModelMusclesTextField;
+    private javax.swing.JTextField unoptimizedModelNameTextField;
     // End of variables declaration//GEN-END:variables
    // Relinquish C++ resources by setting references to them to null
    public void cleanup()
