@@ -1,7 +1,7 @@
 // Authors: Elena Ceseracciu, Luca Modenese, Claudio Pizzolato
 
-#ifndef __MuscleOptimizer_h__
-#define __MuscleOptimizer_h__
+#ifndef MUSCLE_OPTIMIZER_FOR_OPENSIM_H_
+#define MUSCLE_OPTIMIZER_FOR_OPENSIM_H_
 
 
 
@@ -100,6 +100,5 @@ namespace OpenSim {
 
 } // end of namespace OpenSim
 
-#endif // __MuscleOptimizer_h__
-
+#endif // MUSCLE_OPTIMIZER_FOR_OPENSIM_H_
 
