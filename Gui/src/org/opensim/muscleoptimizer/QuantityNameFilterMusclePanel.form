@@ -172,9 +172,6 @@
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Regular expression. Use &apos;.*&apos; for wildcard, add patterns with &apos;|&apos; "/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Regular expression. Use &apos;.*&apos; for wildcard, add patterns with &apos;|&apos; "/>
-          </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jMuscleGroupComboBox">
           <Properties>
