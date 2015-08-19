@@ -122,6 +122,7 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
         referenceModel->getMuscles().getNames(musclesReference);
         inputModel->getMuscles().getNames(musclesInput);
 
+        int nEnabledMuscles = 0;
         // Check that all input model's muscles can be found in the reference model
         for (int im = 0; im < musclesInput.getSize(); ++im)
         {
@@ -130,14 +131,17 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                 cout << "Muscle optimizer: ERROR- Muscle " << musclesInput[im] << " could not be found in reference model! Aborting." << std::endl;
                 return false;
             }
+            // also, count the total number of enabled muscles, so that we can provide this info to the user to check progress
+            if (isEnabledMuscle(musclesInput[im]))
+                ++nEnabledMuscles;
         }
 
-
+        int curMuscleOrdinal = 0;
         for (int im = 0; im < musclesInput.getSize(); ++im) {
             std::string currentMuscleName = musclesInput[im];
             if (isEnabledMuscle(currentMuscleName))
             {
-                std::cout << "Optimizing muscle: " << currentMuscleName << "; ";
+                std::cout << "Optimizing muscle: " << currentMuscleName << " (" << ++curMuscleOrdinal << "/" << nEnabledMuscles << "); ";
                 // Reset models' poses
                 SimTK::State& referenceInitialState = referenceModel->initSystem();
                 SimTK::State& inputInitialState = inputModel->initSystem();
@@ -176,10 +180,14 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
 
                 if (x[0] <= 0 || x[1] <= 0)
                 {
-                    std::cout << "Negative value estimate for muscle parameter of muscle " << currentMuscleName << std::endl;
+                    if (x[0] <= 0)
+                        std::cout << " Negative estimate for optimal fiber length of muscle " << currentMuscleName << std::endl;
+
+                    if (x[1] <= 0)
+                        std::cout << " Negative estimate for tendon slack length of muscle " << currentMuscleName << std::endl;
 
                     if (max(A.col(1)) - min(A.col(1)) < 0.0001)
-                        std::cout << "Tendon length not changing throughout range of motion" << std::endl;
+                        std::cout << " Tendon length not changing throughout range of motion" << std::endl;
 
                     SimTK::Vector templateMTUlength = sampleMTULength(*referenceModel, referenceInitialState, currentMuscleName, coordCombinations);
 
@@ -189,6 +197,7 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                         double Lten_fraction = A(i, 1)*referenceModel->getMuscles().get(currentMuscleName).getTendonSlackLength() / templateMTUlength(i);
                         Lfib_targ(i) = (1 - Lten_fraction)*targetMTUlength(i);
                     }
+                    std::cout << " Fallback: optimize optimal fiber length assuming same proportion between fiber and tendon as in reference muscle" << std::endl;
                     // first round - estimate Lopt, assuming that the same proportion between fiber and tendon in kept as in reference muscle
                     SimTK::Matrix A_1(A.col(0));
                     SimTK::FactorQTZ qtz1(A_1);
