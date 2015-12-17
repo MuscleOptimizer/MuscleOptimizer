@@ -259,9 +259,12 @@ Array<std::string> MuscleOptimizer::getJointSpannedByMuscle(Model& model, const 
 
     std::string currentBodyName(distalBody.getName());
     std::string proximalBodyName(proximalBody.getName());
-
     const OpenSim::JointSet& jointSet = model.getJointSet();
     while (currentBodyName != proximalBodyName) {
+        if (currentBodyName == "ground") {
+            std::cout << "WARNING: something went wrong while determining spanned joints for muscle " << muscleName << std::endl;
+            break;
+        }
         for (int i = 0; i < jointSet.getSize(); i++)
         {
             if (jointSet.get(i).getBody().getName() == currentBodyName)
