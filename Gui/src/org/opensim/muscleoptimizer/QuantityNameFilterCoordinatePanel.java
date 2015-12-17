@@ -223,7 +223,6 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
         );
 
         FilterTextField.getAccessibleContext().setAccessibleName("");
-        FilterTextField.getAccessibleContext().setAccessibleDescription("Regular expression. Use '.*' for wildcard, add patterns with '|' ");
 
         jSelectAllCheckBox.setText("select all shown");
         jSelectAllCheckBox.setToolTipText("select all shown quantities");
@@ -252,7 +251,7 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, 0, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, 0, 394, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jSelectAllCheckBox)
@@ -268,7 +267,7 @@ public class QuantityNameFilterCoordinatePanel extends javax.swing.JPanel implem
                 .addContainerGap()
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
