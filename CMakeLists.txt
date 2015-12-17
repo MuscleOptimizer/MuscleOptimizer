@@ -4,7 +4,7 @@ project(MuscleOptimizer)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(OpenSim 3.2 REQUIRED)
+find_package(OpenSim REQUIRED)
 
 set(BUILD_SHARED_LIBS TRUE CACHE BOOL "Build shared libraries" FORCE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -18,9 +18,6 @@ endif()
 if(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
-
-#ARGHHH:
-link_directories(${OpenSim_LIB_DIR})
 
 add_subdirectory(lib)
 add_subdirectory(application)

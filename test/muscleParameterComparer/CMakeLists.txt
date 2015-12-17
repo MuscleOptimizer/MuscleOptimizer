@@ -2,6 +2,6 @@
 
 project(muscleParameterComparer)
 
-include_directories(${OpenSim_INCLUDE_DIRS})
+include_directories(${OPENSIMSIMBODY_INCLUDE_DIRS})
 add_executable(muscleParameterComparer muscleParameterComparer.cpp)
-target_link_libraries(muscleParameterComparer ${OpenSim_LIBRARIES})
+target_link_libraries(muscleParameterComparer ${OPENSIMSIMBODY_LIBRARIES})
