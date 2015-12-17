@@ -264,7 +264,6 @@ Array<std::string> MuscleOptimizer::getJointSpannedByMuscle(Model& model, const 
     while (currentBodyName != proximalBodyName) {
         for (int i = 0; i < jointSet.getSize(); i++)
         {
-//            if (jointSet.get(i).getChildBody().getName() == currentBodyName) //was:
             if (jointSet.get(i).getBody().getName() == currentBodyName)
             {
                 if (jointSet.get(i).getCoordinateSet().getSize() != 0)
@@ -316,7 +315,6 @@ SimTK::Vector MuscleOptimizer::sampleMTULength(Model& model, SimTK::State& si, c
     SimTK::Vector mtuLength(coordinateCombinations.at(0).second.size()); //output variable
 
     model.getMuscles().get(muscleName).setActivation(si, 1.0);
-    //model.getMuscles().get(muscleName).setIgnoreTendonCompliance(si, true);
 
     for (size_t combinationInd = 0; combinationInd < coordinateCombinations.at(0).second.size(); ++combinationInd)
     {
@@ -337,7 +335,6 @@ SimTK::Vector MuscleOptimizer::sampleMTULength(Model& model, SimTK::State& si, c
         model.getMultibodySystem().realize(si, SimTK::Stage::Position);
         try
         {
-            //model.getMuscles().get(muscleName).equilibrate(si);
             mtuLength[combinationInd] = model.getMuscles().get(muscleName).getLength(si);
 
         }
@@ -361,7 +358,6 @@ std::vector<MuscleOptimizer::TemplateMuscleInfo> MuscleOptimizer::sampleTemplate
     std::vector<MuscleOptimizer::TemplateMuscleInfo> templateQuantities;
 
     model.getMuscles().get(muscleName).setActivation(si, 1.0);
-    //model.getMuscles().get(muscleName).setIgnoreTendonCompliance(si, true);
 
     MuscleFixedWidthPennationModel fibKin = MuscleFixedWidthPennationModel(model.getMuscles().get(muscleName).getOptimalFiberLength(), model.getMuscles().get(muscleName).getPennationAngleAtOptimalFiberLength(), acos(0.1));
     double minFiberLength = fibKin.getMinimumFiberLength() / model.getMuscles().get(muscleName).getOptimalFiberLength();
@@ -390,7 +386,6 @@ std::vector<MuscleOptimizer::TemplateMuscleInfo> MuscleOptimizer::sampleTemplate
         {
             model.getMuscles().get(muscleName).equilibrate(si);
             muscleInfo.normalizedFiberLength = model.getMuscles().get(muscleName).getNormalizedFiberLength(si);
-            //if (muscleInfo.normalizedFiberLength < minFiberLength || model.getMuscles().get(muscleName).getActuation(si) == 0.0) //was:
             if (model.getMuscles().get(muscleName).getForce(si) == 0.0 || model.getMuscles().get(muscleName).getNormalizedFiberLength(si)<0.5)
             {
                 pointsToRemove.push_back(combinationInd);

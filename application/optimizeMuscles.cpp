@@ -40,14 +40,10 @@ static void PrintUsage(const char *aProgName, ostream &aOStream);
 
 int main(int argc, char **argv)
 {
-    //TODO: put these options on the command line
-    //LoadOpenSimLibrary("osimSimbodyEngine");
-
     // SET OUTPUT FORMATTING
     IO::SetDigitsPad(4);
 
     // REGISTER TYPES
-    Object::registerType(VisibleObject());
     Object::registerType(MuscleOptimizeTool());
     MuscleOptimizeTool::registerTypes();
 
