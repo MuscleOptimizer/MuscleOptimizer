@@ -156,7 +156,7 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
                 }
                 else
                 {
-                    std::cout << "no coordinates for " << currentMuscleName << ", skipping optimization" << std::endl;
+                    std::cout << "   No coordinates for " << currentMuscleName << ", skipping optimization" << std::endl;
                     continue;
                 }
                 if (coordCombinations.size() > 0 && coordCombinations.at(0).second.size() < get_n_evaluation_points() / 2) //just a check that the sampling did not fail
@@ -253,18 +253,52 @@ Array<std::string> MuscleOptimizer::getJointSpannedByMuscle(Model& model, const 
     OpenSim::GeometryPath musclePath(muscle.getGeometryPath());
     OpenSim::PathPointSet musclePathPointSet(musclePath.getPathPointSet());
 
-    int proximalBodyIndex = 0;
-    OpenSim::Body& distalBody = musclePathPointSet.get(musclePathPointSet.getSize() - 1).getBody();
-    OpenSim::Body& proximalBody = musclePathPointSet.get(proximalBodyIndex).getBody();
-
-    std::string currentBodyName(distalBody.getName());
-    std::string proximalBodyName(proximalBody.getName());
+    // check if there is a simple kinematic chain between geometry path extremes
+    int firstBodyIndex = 0;
     const OpenSim::JointSet& jointSet = model.getJointSet();
-    while (currentBodyName != proximalBodyName) {
-        if (currentBodyName == "ground") {
-            std::cout << "WARNING: something went wrong while determining spanned joints for muscle " << muscleName << std::endl;
-            break;
+    // try to use consider first path point as on the proximal body, and last path point on the distal body
+    OpenSim::Body& lastBody = musclePathPointSet.get(musclePathPointSet.getSize() - 1).getBody();
+    OpenSim::Body& firstBody = musclePathPointSet.get(firstBodyIndex).getBody();
+    std::string currentBodyName(lastBody.getName());
+    std::string proximalBodyName(firstBody.getName());
+    while (currentBodyName != proximalBodyName && currentBodyName !="ground") {
+        for (int i = 0; i < jointSet.getSize(); i++)
+        {
+            if (jointSet.get(i).getBody().getName() == currentBodyName)
+            {
+                currentBodyName = jointSet.get(i).getParentBody().getName();
+                continue;
+            }
         }
+    }
+    if (currentBodyName == "ground") {
+        // reverse - consider first path point as on distal body
+        currentBodyName = firstBody.getName();
+        proximalBodyName = lastBody.getName();
+        while (currentBodyName != proximalBodyName && currentBodyName != "ground") {
+            for (int i = 0; i < jointSet.getSize(); i++)
+            {
+                if (jointSet.get(i).getBody().getName() == currentBodyName)
+                {
+                    currentBodyName = jointSet.get(i).getParentBody().getName();
+                    continue;
+                }
+            }
+        }
+        if (currentBodyName == "ground") {
+            std::cout << "WARNING: Geometry Path for muscle " << muscleName << " does not follow a simple open kinematic chain" << std::endl;
+            return jointNames;
+        }
+        else {
+            currentBodyName = firstBody.getName();
+        }
+
+    }
+    else {
+        currentBodyName = lastBody.getName();
+    }
+
+    while (currentBodyName != proximalBodyName) {
         for (int i = 0; i < jointSet.getSize(); i++)
         {
             if (jointSet.get(i).getBody().getName() == currentBodyName)
