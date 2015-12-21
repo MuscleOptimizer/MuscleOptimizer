@@ -166,6 +166,12 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
 
                 SimTK::Vector targetMTUlength = sampleMTULength(*inputModel, inputInitialState, currentMuscleName, coordCombinations);
 
+                if (targetMTUlength.size() != templateQuantities.size()) {
+                    std::cout << "   Could not sample target MTU lengths on the same poses as reference model" << std::endl;
+                    std::cout << "   There might be some inconsistencies between joints/coordinates definitions in the two models" << std::endl;
+                    continue;
+                }
+
                 SimTK::Matrix A(templateQuantities.size(), 2);
                 for (size_t i = 0; i < templateQuantities.size(); ++i)
                 {
