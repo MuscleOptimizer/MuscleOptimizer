@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="30000">
+	<MuscleOptimizeTool name="LHDL_Schutte_R_optimized">
+		<!--Notes for the subject.-->
+		<notes>Unassigned</notes>
+		<!--Specifies the name of the optimized model (.osim)-->
+		<model>MSK_Models/Target_LHDL_Schutte_R.osim</model>
+		<!--Specifies the name of the reference model(.osim)-->
+		<reference_model>MSK_Models/Reference_Arnold_R.osim</reference_model>
+		<!--Specifies parameters for optimizing the muscle parameters for the model.-->
+		<MuscleOptimizer>
+			<!--Whether or not to use the model optimizer during optimization-->
+			<apply>true</apply>
+			<!--Specifies the coordinates (degrees of freedom) to consider (default: ALL)-->
+			<coordinates />
+			<!--Specifies the muscles to consider (default: ALL)-->
+			<muscles> </muscles>
+			<!--Number of evaluation points for each degree of freedom-->
+			<n_evaluation_points>10</n_evaluation_points>
+			<!--Name of OpenSim model file (.osim) to write when done optimizing.-->
+			<output_model_file>Optim_Models/cpp_Optimized_LHDL_Schutte_R.osim</output_model_file>
+		</MuscleOptimizer>
+	</MuscleOptimizeTool>
+</OpenSimDocument>
