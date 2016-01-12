@@ -55,7 +55,7 @@ namespace OpenSim {
             "Specifies the coordinates (degrees of freedom) to consider (default: ALL)");
         OpenSim_DECLARE_LIST_PROPERTY(muscles, std::string,
             "Specifies the muscles to consider (default: ALL)");
-        OpenSim_DECLARE_PROPERTY(n_evaluation_points, double,
+        OpenSim_DECLARE_PROPERTY(n_evaluation_points, int,
             "Number of evaluation points for each degree of freedom");
         OpenSim_DECLARE_PROPERTY(min_degrees_increment, double,
             "Minimum degree interval when sampling a degree of freedom(<= 0->no limit check).Default value : 2.5 (degrees)");

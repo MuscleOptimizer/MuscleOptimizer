@@ -298,13 +298,13 @@ public class MuscleOptimizeToolModel extends Observable implements Observer {
       return optimizeTool.getMuscleOptimizer().get_apply();
    }
 
-   public void setNumberOfEvaluationPoints(double npoints)
+   public void setNumberOfEvaluationPoints(int npoints)
    {
        optimizeTool.getMuscleOptimizer().set_n_evaluation_points(npoints);
        setModified(Operation.MuscleOptimizerDataChanged);
    }
 
-   public double getNumberOfEvaluationPoints()
+   public int getNumberOfEvaluationPoints()
    {
        return optimizeTool.getMuscleOptimizer().get_n_evaluation_points();
    }

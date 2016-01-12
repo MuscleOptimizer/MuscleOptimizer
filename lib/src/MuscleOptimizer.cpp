@@ -123,17 +123,18 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
         inputModel->getMuscles().getNames(musclesInput);
 
         int nEnabledMuscles = 0;
-        // Check that all input model's muscles can be found in the reference model
+        // Check that all enabled input model's muscles can be found in the reference model
         for (int im = 0; im < musclesInput.getSize(); ++im)
         {
-            if (musclesReference.findIndex(musclesInput[im]) < 0)
-            {
-                cout << "Muscle optimizer: ERROR- Muscle " << musclesInput[im] << " could not be found in reference model! Aborting." << std::endl;
-                return false;
-            }
-            // also, count the total number of enabled muscles, so that we can provide this info to the user to check progress
             if (isEnabledMuscle(musclesInput[im]))
-                ++nEnabledMuscles;
+            {
+                ++nEnabledMuscles; // also, count the total number of enabled muscles, so that we can provide this info to the user to check progress
+                if (musclesReference.findIndex(musclesInput[im]) < 0)
+                {
+                    cout << "Muscle optimizer: ERROR- Muscle " << musclesInput[im] << " could not be found in reference model! Aborting." << std::endl;
+                    return false;
+                }
+            }
         }
 
         int curMuscleOrdinal = 0;
@@ -141,12 +142,12 @@ bool MuscleOptimizer::processModel(Model* inputModel, Model* referenceModel, con
             std::string currentMuscleName = musclesInput[im];
             if (isEnabledMuscle(currentMuscleName))
             {
-                std::cout << "Optimizing muscle: " << currentMuscleName << " (" << ++curMuscleOrdinal << "/" << nEnabledMuscles << "); ";
+                std::cout << "Optimizing muscle " << ++curMuscleOrdinal << "/" << nEnabledMuscles << ": " << currentMuscleName << ";";
                 // Reset models' poses
                 SimTK::State& referenceInitialState = referenceModel->initSystem();
                 SimTK::State& inputInitialState = inputModel->initSystem();
 
-                MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*referenceModel, referenceInitialState, currentMuscleName, get_n_evaluation_points());
+                MuscleOptimizer::CoordinateCombinations coordCombinations = sampleROMsForMuscle(*inputModel, inputInitialState, currentMuscleName, get_n_evaluation_points());
                 if (coordCombinations.size()>0)
                 {
                     std::cout << "using coordinates [ ";

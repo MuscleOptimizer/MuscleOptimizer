@@ -454,11 +454,11 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
 
     private void nEvalPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nEvalPointsActionPerformed
         try {
-            double nevalpoints= numFormat.parse(nEvalPoints.getText()).doubleValue();
+            int nevalpoints= numFormat.parse(nEvalPoints.getText()).intValue();
             optimizeToolModel.setNumberOfEvaluationPoints(nevalpoints);
         } catch (ParseException ex) { // To catch parsing problems (string -> double)
             Toolkit.getDefaultToolkit().beep();
-            double nevalpointsOld = optimizeToolModel.getNumberOfEvaluationPoints();
+            int nevalpointsOld = optimizeToolModel.getNumberOfEvaluationPoints();
             nEvalPoints.setText(numFormat.format(nevalpointsOld));
         }
     }//GEN-LAST:event_nEvalPointsActionPerformed
