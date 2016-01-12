@@ -19,6 +19,7 @@ How to Acknowledge Us
 If you use the toolbox, you must acknowledge the Muscle Parameter Optimization
 Toolbox where appropriate, by citing the following paper:
 
-Modenese L, Ceseracciu E, Reggiani M, Lloyd DG (2015). Estimation of
+Modenese L, Ceseracciu E, Reggiani M, Lloyd DG. Estimation of
 musculotendon parameters for scaled and subject specific musculoskeletal
-models using an optimization technique. Journal of Biomechanics (submitted)
+models using an optimization technique. Journal of Biomechanics (2015),
+doi:10.1016/j.jbiomech.2015.11.006
