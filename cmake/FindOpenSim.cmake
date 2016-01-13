@@ -161,12 +161,25 @@ find_path(OPENSIM_INCLUDE_DIR
 
 # This change is necessary for Simbody 3.4 and beyond, and is incompatible
 # with Simbody 3.3 and below.
-set(OPENSIM_SIMBODY_INCLUDE_RELPATH "include")
+#set(OPENSIM_SIMBODY_INCLUDE_RELPATH "include")
 
-set(OPENSIMSIMBODY_INCLUDE_DIR
-    ${OPENSIM_INCLUDE_DIR}
-    ${OPENSIM_INCLUDE_DIR}/SimTK/${OPENSIM_SIMBODY_INCLUDE_RELPATH}
-    )
+# I found that OpenSim 3.3 source installs files in a "simbody" subdir instead of "include"
+# Let's check both
+if(EXISTS "${OPENSIM_INCLUDE_DIR}/SimTK/include" AND IS_DIRECTORY "${OPENSIM_INCLUDE_DIR}/SimTK/include")
+    set(OPENSIMSIMBODY_INCLUDE_DIR
+        ${OPENSIM_INCLUDE_DIR}
+        ${OPENSIM_INCLUDE_DIR}/SimTK/include
+        )
+elseif(EXISTS "${OPENSIM_INCLUDE_DIR}/SimTK/simbody" AND IS_DIRECTORY "${OPENSIM_INCLUDE_DIR}/SimTK/simbody")
+    set(OPENSIMSIMBODY_INCLUDE_DIR
+        ${OPENSIM_INCLUDE_DIR}
+        ${OPENSIM_INCLUDE_DIR}/SimTK/simbody
+        )
+else()
+    set(OPENSIMSIMBODY_INCLUDE_DIR
+        ${OPENSIM_INCLUDE_DIR}
+       )
+endif()
 
 
 # OPENSIM_ROOT_DIR
