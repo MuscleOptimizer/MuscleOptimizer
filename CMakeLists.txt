@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.6)
 
 project(MuscleOptimizer)
+set(MO_MAJOR_VERSION 0)
+set(MO_MINOR_VERSION 1)
+set(MO_PATCH_VERSION 0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -22,6 +25,7 @@ endif()
 add_subdirectory(lib)
 add_subdirectory(application)
 add_subdirectory(wrappers)
+add_subdirectory(doc)
 
 include(CTest)
 enable_testing()

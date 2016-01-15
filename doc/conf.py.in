@@ -1,0 +1,76 @@
+import sys
+import os
+import re
+import glob
+
+sys.path.insert(0, r'@conf_path@')
+
+source_suffix = '.rst'
+master_doc = 'index'
+
+project = 'Muscle Optimizer Plugin User Guide'
+copyright = '@conf_copyright@'
+version = '@conf_version@' # feature version
+release = '@conf_release@' # full version string
+
+primary_domain = 'None'
+
+exclude_patterns = []
+
+todo_include_todos = True
+
+# to read bibtex: http://sphinxcontrib-bibtex.readthedocs.org/
+# to enumerate figures: http://sourceforge.net/projects/numfig/
+
+extensions = ['sphinx.ext.intersphinx',
+              'sphinx.ext.extlinks',
+              'sphinx.ext.todo',
+              'sphinx.ext.mathjax',
+              'sphinxcontrib.bibtex',
+              'sphinx.ext.ifconfig',
+              'sphinx.ext.numfig']
+templates_path = ['@conf_path@/templates']
+
+# numfig:
+numfig_number_figures = @numfig_number_figures@
+numfig_figure_caption_prefix = "Figure"
+
+html_show_sourcelink = True
+html_static_path = ['@conf_path@/static']
+html_style = 'MO.css'
+html_theme = 'default'
+html_theme_options = {
+    "externalrefs": "true",
+    "relbarbgcolor": "#b30",
+    "sidebarwidth": "300"
+}
+
+html_title = 'Muscle Optimizer %s Help' % release
+html_short_title = 'MO %s' % release
+html_favicon = '@conf_path@/static/MO-favicon.ico'
+
+# -- Options for LaTeX output ---------------------------------------------
+latex_elements = {}
+#latex_elements = {'preamble':'\\usepackage{caption}\n\\captionsetup[figure]{labelformat=empty}'}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+latex_documents = [
+  ('index', 'MuscleOptimizerHelp.tex', u'Muscle Optimizer User Guide',
+   u'Elena Ceseracciu, Luca Modenese', 'manual'),
+]
+
+
+
+rst_epilog = """
+.. _`Universita' degli Studi di Padova`: http://www.unipd.it
+.. _`Dipartimento di Tecnica e Gestione dei Sistemi Industriali`: http://www.gest.unipd.it
+.. _`Rehabilitation Engineering Group`: http://reg.gest.unipd.it
+.. _`Centre For Musculoskeletal Research`: http://www.griffith.edu.au/health/musculoskeletal-research
+.. _`Griffith University`: http://www.griffith.edu.au/
+.. _`BioMot`: http://www.biomotproject.eu/
+"""
+latex_show_pagerefs = @latex_show_pagerefs@
+latex_show_urls = 'footnote'
+latex_use_parts = 'true'
