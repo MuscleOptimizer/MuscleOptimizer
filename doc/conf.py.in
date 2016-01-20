@@ -41,8 +41,16 @@ html_style = 'MO.css'
 html_theme = 'default'
 html_theme_options = {
     "externalrefs": "true",
-    "relbarbgcolor": "#b30",
-    "sidebarwidth": "300"
+    "sidebarbgcolor": "#3cb371",
+    "sidebarlinkcolor": "#ecffe6",
+    "sidebarwidth": "300",
+    "footerbgcolor": "#2e8b57",
+    "headlinkcolor": "#20603d",
+    "headtextcolor": "#2d8655",
+    "headbgcolor": "#ecffe6",
+    "codebgcolor": "#eeffee",
+    "linkcolor": "#00a800",
+    "visitedlinkcolor": "#20603d"
 }
 
 html_title = 'Muscle Optimizer %s Help' % release
@@ -50,7 +58,6 @@ html_short_title = 'MO %s' % release
 html_favicon = '@conf_path@/static/MO-favicon.ico'
 
 # -- Options for LaTeX output ---------------------------------------------
-latex_elements = {}
 #latex_elements = {'preamble':'\\usepackage{caption}\n\\captionsetup[figure]{labelformat=empty}'}
 
 # Grouping the document tree into LaTeX files. List of tuples
