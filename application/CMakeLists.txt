@@ -6,3 +6,5 @@ add_executable(muscleOptimize optimizeMuscles.cpp)
 
 target_link_libraries(muscleOptimize ${OPENSIMSIMBODY_LIBRARIES} muscleOptimizeTool)
 set_target_properties(muscleOptimize PROPERTIES PROJECT_LABEL "Applications - Muscle Optimizer")
+
+install(TARGETS muscleOptimize DESTINATION ${CMAKE_INSTALL_BINDIR})

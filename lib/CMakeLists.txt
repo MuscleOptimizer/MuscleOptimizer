@@ -18,3 +18,7 @@ target_link_libraries(muscleOptimizeTool ${OPENSIMSIMBODY_LIBRARIES})
 set_target_properties(muscleOptimizeTool PROPERTIES DEFINE_SYMBOL OSIMTOOLS_EXPORTS PROJECT_LABEL "Libraries - MuscleOptimizerTool")
 
 set(muscleOptimizeTool_INCLUDE_DIRS  "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_SOURCE_DIR}/include/OpenSim/Tools" ${OPENSIMSIMBODY_INCLUDE_DIRS} CACHE INTERNAL "")
+
+install(TARGETS muscleOptimizeTool RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+                                   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+                                   # NO ARCHIVE, as we do not need it for the final package

@@ -83,6 +83,10 @@ if(BUILD_SPHINX_MANUAL_HTML OR BUILD_SPHINX_MANUAL_LATEX)
       set_property(SOURCE ${doc_format_output} PROPERTY SYMBOLIC 1)
       list(APPEND doc_format_outputs ${doc_format_output})
       set(doc_format_last ${doc_format_output})
+
+      install(DIRECTORY   "${CMAKE_CURRENT_BINARY_DIR}/${format}"
+                DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+                )
     endforeach()
 
     add_custom_target(documentation ALL DEPENDS ${doc_format_outputs} SOURCES ${rst_sources})
