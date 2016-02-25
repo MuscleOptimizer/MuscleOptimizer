@@ -58,6 +58,7 @@ html_short_title = 'MO %s' % release
 html_favicon = '@conf_path@/static/MO-favicon.ico'
 
 # -- Options for LaTeX output ---------------------------------------------
+latex_elements = {'figure_align':'H', 'preamble':'\\usepackage{float}\n'}
 #latex_elements = {'preamble':'\\usepackage{caption}\n\\captionsetup[figure]{labelformat=empty}'}
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -65,7 +66,7 @@ html_favicon = '@conf_path@/static/MO-favicon.ico'
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'MuscleOptimizerHelp.tex', u'Muscle Optimizer User Guide',
-   u'Elena Ceseracciu, Luca Modenese', 'manual'),
+   u'Elena Ceseracciu, Luca Modenese', 'howto'),
 ]
 
 
@@ -79,5 +80,5 @@ rst_epilog = """
 .. _`BioMot`: http://www.biomotproject.eu/
 """
 latex_show_pagerefs = @latex_show_pagerefs@
-latex_show_urls = 'footnote'
-latex_use_parts = 'true'
+latex_show_urls = @latex_show_urls@
+latex_use_parts = False

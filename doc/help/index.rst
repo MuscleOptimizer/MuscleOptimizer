@@ -4,7 +4,7 @@
 Muscle Parameter Optimizer
 **************************
 
-.. only:: html or latex
+.. only:: html
 
    .. contents::
 
@@ -63,13 +63,13 @@ The Muscle Optimizer Plugin & Toolbox are developed by the `Rehabilitation Engin
     .. list-table::
 
         * - .. image:: images/reglogo.jpg
-              :height: 100pt
+              :height: 75pt
               :alt: DTG logo
           - .. image:: images/unipd.png
-              :height: 100pt
+              :height: 75pt
               :alt: UNIPD logo
           - .. image:: images/griffith.png
-              :height: 100pt
+              :height: 75pt
               :alt: Griffith logo
 
 Monica Reggiani and Elena Ceseracciu acknowledge the financial support of the ICT
@@ -79,7 +79,7 @@ European Commission (`BioMot`_ project, grant number: 611695).
 .. only:: html
 
     .. image:: images/biomot.png
-            :height: 100pt
+            :height: 75pt
             :align: center
             :alt: BioMot logo
             :target: `Biomot`_
@@ -87,7 +87,7 @@ European Commission (`BioMot`_ project, grant number: 611695).
 .. only:: latex
 
     .. image:: images/biomot.png
-            :height: 100pt
+            :height: 75pt
             :align: center
             :alt: BioMot logo
 

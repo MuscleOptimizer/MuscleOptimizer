@@ -41,7 +41,10 @@ end
 
 % optimizing target model based on reference model fro N_eval points per
 % degree of freedom
-[osimModel_opt, SimsInfo{N_eval}] = optimMuscleParams(osimModel_ref_filepath, osimModel_targ_filepath, N_eval, log_folder);
+[osimModel_opt, SimsInfo{N_eval}] = optimMuscleParams(osimModel_ref_filepath, ...
+                                                      osimModel_targ_filepath, ...
+                                                      N_eval, ...
+                                                      log_folder);
 
 % printing the optimized model
 osimModel_opt.print(fullfile(OptimizedModel_folder, char(osimModel_opt.getName())));

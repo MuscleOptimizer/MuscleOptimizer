@@ -12,4 +12,5 @@ The toolbox provides the ``optimMuscleParams`` function, that can be called as i
 
 .. literalinclude:: ../../test/Example1/run_example1.m
    :language: matlab
+   :start-after: % clear;clc;close all
    :encoding: latin-1

@@ -11,15 +11,19 @@
         <MuscleOptimizer>
             <!--Whether or not to use the model optimizer during optimization-->
             <apply>true</apply>
-            <!--Specifies the coordinates (degrees of freedom) to consider (default: ALL)-->
+            <!--Specifies the coordinates (degrees of freedom) to consider
+                (default: ALL)-->
             <coordinates />
             <!--Specifies the muscles to consider (default: ALL)-->
             <muscles> </muscles>
             <!--Number of evaluation points for each degree of freedom-->
             <n_evaluation_points>10</n_evaluation_points>
-            <!--Minimum degree interval when sampling a degree of freedom (<=0 -> no limit check). Default value: 2.5 (degrees)-->
+            <!--Minimum degree interval when sampling a degree of freedom
+                (<=0 -> no limit check). Default value: 2.5 (degrees)-->
             <min_degrees_increment>2.5</min_degrees_increment>
-            <output_model_file>Optim_Models/cpp_Optimized_Hamner_scaled_L.osim</output_model_file>
+            <output_model_file>
+                Optim_Models/cpp_Optimized_Hamner_scaled_L.osim
+            </output_model_file>
         </MuscleOptimizer>
     </MuscleOptimizeTool>
 </OpenSimDocument>
