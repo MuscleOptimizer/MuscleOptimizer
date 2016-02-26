@@ -1032,7 +1032,7 @@ namespace SimTK {
 %include <OpenSim/Tools/AnalyzeTool.h>
 %include <OpenSim/Tools/InverseKinematicsTool.h>
 
-%include <OpenSim/Utilities/simmFileWriterDLL/SimmFileWriter.h>
+//%include <OpenSim/Utilities/simmFileWriterDLL/SimmFileWriter.h>
 
 %include <OpenSim/Wrapping/Java/OpenSimJNI/OpenSimContext.h>
 
