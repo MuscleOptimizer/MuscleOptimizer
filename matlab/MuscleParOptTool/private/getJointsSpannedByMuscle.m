@@ -116,5 +116,5 @@ if  ~isempty(NoDofjointNameSet)
     end
 end
 
-varargout = NoDofjointNameSet;
+varargout = {NoDofjointNameSet};
 end
