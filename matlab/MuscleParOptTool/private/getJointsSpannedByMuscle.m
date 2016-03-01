@@ -82,8 +82,8 @@ body =  BodySet.get(DistalBodyName);
 spannedJointNameOld = '';
 n_spanJoint = 1;
 n_spanJointNoDof = 1;
-NoDofjointNameSet = [];
-jointNameSet = [];
+NoDofjointNameSet = {};
+jointNameSet = {};
 while ~strcmp(bodyName,ProximalBodyName)
 
     spannedJoint = body.getJoint();
@@ -93,14 +93,14 @@ while ~strcmp(bodyName,ProximalBodyName)
          body =  spannedJoint.getParentBody();
          spannedJointNameOld = spannedJointName;
     else
-            if spannedJoint.getCoordinateSet().getSize()~=0
+        if spannedJoint.getCoordinateSet().getSize()~=0
 
-        jointNameSet{n_spanJoint} =  spannedJointName;
-        n_spanJoint = n_spanJoint+1;
-            else
-                NoDofjointNameSet{n_spanJointNoDof} =  spannedJointName;
-                n_spanJointNoDof = n_spanJointNoDof+1;
-            end
+            jointNameSet{n_spanJoint} =  spannedJointName;
+            n_spanJoint = n_spanJoint+1;
+        else
+            NoDofjointNameSet{n_spanJointNoDof} =  spannedJointName;
+            n_spanJointNoDof = n_spanJointNoDof+1;
+        end
         spannedJointNameOld = spannedJointName;
         body =  spannedJoint.getParentBody();
     end
@@ -116,5 +116,5 @@ if  ~isempty(NoDofjointNameSet)
     end
 end
 
-varargout = {NoDofjointNameSet};
+varargout = NoDofjointNameSet;
 end
