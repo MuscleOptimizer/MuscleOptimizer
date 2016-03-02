@@ -74,9 +74,9 @@ public class MuscleOptimizeToolPanel extends org.opensim.tracking.BaseToolPanel 
       helpButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ae) {
-                //TODO add help
                 //String path = BrowserLauncher.isConnected() ? "http://MOwebsite" : TheApp.getUsersGuideDir() +  "OptimizingMuscleParameters.html";
-                //BrowserLauncher.openURL(path);
+                String path = "http://muscleoptimizer.github.io/MuscleOptimizer";
+                BrowserLauncher.openURL(path);
             }
       });
 

@@ -8,7 +8,7 @@ pre-compiled files from https://simtk.org/home/opt_muscle_par. You need to have 
 your system. *Make sure* that you download an archive that is compatible with your OpenSim installation
 (i.e., 32 or 64 bit). If you want to use the standalone application on Linux, you need to compile from
 sources yourself; you can get the released source code from https://simtk.org/home/opt_muscle_par or the
-latest version from the GitHub page(TODO).
+latest version from the GitHub page https://github.com/MuscleOptimizer/MuscleOptimizer .
 
 .. note::
   If you are only interested in the MatLab package, please refer directly to the :ref:`MOmatlab` section.
