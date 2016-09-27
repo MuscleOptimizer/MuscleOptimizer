@@ -27,13 +27,11 @@ extensions = ['sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.mathjax',
               'sphinxcontrib.bibtex',
-              'sphinx.ext.ifconfig',
-              'sphinx.ext.numfig']
+              'sphinx.ext.ifconfig']
 templates_path = ['@conf_path@/templates']
 
 # numfig:
-numfig_number_figures = @numfig_number_figures@
-numfig_figure_caption_prefix = "Figure"
+numfig = True
 
 html_show_sourcelink = True
 html_static_path = ['@conf_path@/static']

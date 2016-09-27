@@ -23,13 +23,6 @@ if(BUILD_SPHINX_MANUAL_HTML OR BUILD_SPHINX_MANUAL_LATEX)
     set(conf_version "${MO_MAJOR_VERSION}.${MO_MINOR_VERSION}.${MO_PATCH_VERSION}")
     set(conf_release "${MO_MAJOR_VERSION}.${MO_MINOR_VERSION}.${MO_PATCH_VERSION}")
 
-    option(SPHINX_NUMFIG_NUMBER_FIGURES "Number figures (suggested: ON for better HTML output, OFF for LaTex" ON)
-    if(SPHINX_NUMFIG_NUMBER_FIGURES)
-        set(numfig_number_figures "True")
-    else()
-        set(numfig_number_figures "False")
-    endif()
-
     option(SPHINX_LATEX_PRINTABLE "Add page number to internal references (including bibliography). Useful to generated printer-friendly PDF" OFF)
     if(SPHINX_LATEX_PRINTABLE)
         set(latex_show_pagerefs "True")

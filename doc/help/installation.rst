@@ -84,7 +84,7 @@ To use the OpenSim GUI plugin:
       :alt:  Accept license agreement
       :figclass: align-center
 
-  - Click ``Continue`` to install the plugin even if it is not digitally signed (we are too poor to get a proper certificate)
+  - Click ``Continue`` to install the plugin even if it is not digitally signed
 
   .. _figMOinst7:
 

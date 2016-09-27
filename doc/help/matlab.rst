@@ -3,10 +3,11 @@
 MatLab toolbox
 ##############
 
-The MatLab Muscle Parameter Optimization Toolbox can be downloaded as part of the `Muscle Optimizer repository
-on GitHub <http://github.com/MuscleOptimizer/MuscleOptimizer>`_(TODO: should also provide released package?), in the ``matlab`` directory.
+The MatLab Muscle Parameter Optimization Toolbox can be downloaded as part of the `Muscle Optimizer repository <http://github.com/MuscleOptimizer/MuscleOptimizer>`_ on GitHub, under the ``matlab`` directory. A version of this Matlab toolbox,
+designed to reproduced the results and figured of the paper associated with the Muscle Optimizer toolbox :cite:`modenese2016estimation2`,
+is available from our `project page <https://simtk.org/projects/opt_muscle_par>`_  on SimTK.org.
 
-To use the toolbox, you should add the folder ``MuscleParOptTool`` (inside the ``matlab`` directory) to the MatLab path (see Matlab documentation - TODO add link)
+To use the toolbox, you should add the folder ``MuscleParOptTool`` (located in the ``matlab`` directory of the repository) to the MatLab path (`see Matlab documentation <http://it.mathworks.com/help/matlab/matlab_env/add-remove-or-reorder-folders-on-the-search-path.html>`_).
 
 The toolbox provides the ``optimMuscleParams`` function, that can be called as in the following example:
 
@@ -14,3 +15,8 @@ The toolbox provides the ``optimMuscleParams`` function, that can be called as i
    :language: matlab
    :start-after: % clear;clc;close all
    :encoding: latin-1
+
+.. rubric:: Bibliography
+.. bibliography:: literature_matlab.bib
+   :cited:
+   :style: unsrt

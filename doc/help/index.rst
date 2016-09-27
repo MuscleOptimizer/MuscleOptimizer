@@ -13,9 +13,16 @@ Introduction
 ############
 
 
-Estimation of optimal fiber length and tendon slack length in Hill-type muscle models included in musculoskeletal models can be challenging. This project presents an optimization based technique to adjust muscle parameters of models linearly scaled from a generic one and to obtain reasonable estimation of optimal fiber lengths and tendon slack lengths in models generated from medical images.
+Estimation of optimal fiber length and tendon slack length in Hill-type muscle models
+included in musculoskeletal models can be challenging.
+This project presents an optimization based technique to adjust muscle parameters of
+models linearly scaled from a generic reference model and to obtain reasonable estimation
+of optimal fiber lengths and tendon slack lengths in models generated from medical images.
 
-This project provides a command-line application, an OpenSim plugin and equivalent Matlab tools for estimating optimal fiber lengths and tendon slack lengths via an optimization procedure in subject specific models.
+This project provides an OpenSim plugin, equivalent Matlab tools and a command-line application
+for estimating optimal fiber lengths and tendon slack lengths.
+
+
 
 
 .. toctree::

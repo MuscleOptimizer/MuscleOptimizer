@@ -15,9 +15,10 @@ select ``Tools -> Muscle Optimizer Tool...`` from the OpenSim main menu bar.
 
    Muscle Optimizer Tool main window
 
-The Muscle Optimizer Tool window (figure :ref:`figMOmain`), like all other OpenSim tools, operates on the current model. The name of the current model is shown in bold in the Navigator window.
-Any model can be made the current model by right-clicking on its name and selecting Make Current. See the `OpenSim documentation
-<http://simtk-confluence.stanford.edu:8080/display/OpenSim/Opening%2C+Closing%2C+and+Using+the+Navigator+Window>`_
+The Muscle Optimizer Tool window (:numref:`figMOmain`) operates on the current model. The name of the current model is shown in bold in the Navigator window.
+Any model can be made the current model by right-clicking on its name and selecting Make Current from the OpenSim Navigation panel.
+See the `OpenSim documentation
+<http://simtk-confluence.stanford.edu:8080/display/OpenSim/Opening%2C+Closing%2C+and+Using+the+Navigator+Window>`__
 for information on opening models and making a particular model current.
 
 The *Settings* pane is used to specify the reference and output models, and parameters related to the
@@ -37,7 +38,7 @@ The Control Panel
    Tool control panel
 
 As for all OpenSim tools, at the bottom of the dialog window are five buttons,
-located in what is called the Control Panel (fig. :ref:`figMOcp`).
+located in what is called the Control Panel (:numref:`figMOcp`).
 
 
   - The ``Load`` and ``Save`` buttons are used to load or save settings for the tool.
@@ -62,7 +63,7 @@ The name you specify for the file should have a suffix of .xml. Click ``Save`` t
 Settings Pane
 =============
 
-The *Settings* pane (figure :ref:`figMOmain`) is used to specify the reference and output models,
+The *Settings* pane (:numref:`figMOmain`) is used to specify the reference and output models,
 and parameters related to the sampling procedure.
 The pane is organized into three main sections: `Current Model Data`_, `Reference Model Sampling`_ and `Output`_.
 
