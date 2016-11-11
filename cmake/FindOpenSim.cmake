@@ -154,7 +154,7 @@ set(OPENSIMSIMBODY_INCLUDE_DIR_DOC
 
 find_path(OPENSIM_INCLUDE_DIR
     NAMES "OpenSim/OpenSim.h"
-    PATHS ${OPENSIM_SEARCH_PATHS}
+    HINTS ${OPENSIM_SEARCH_PATHS}
     PATH_SUFFIXES "sdk/include" "opensim/sdk/include" "OpenSim/sdk/include"
     DOC ${OPENSIM_INCLUDE_DIR_DOC}
     )
