@@ -26,7 +26,7 @@ for estimating optimal fiber lengths and tendon slack lengths.
 
 
 .. toctree::
-   MO
+   muscleOptimizer
 
 
 #################

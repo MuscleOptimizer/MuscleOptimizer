@@ -54,7 +54,7 @@ if(BUILD_SPHINX_MANUAL_HTML OR BUILD_SPHINX_MANUAL_LATEX)
     endif()
 
     set(rst_sources ${conf_docs}/index.rst
-                    ${conf_docs}/MO.rst
+                    ${conf_docs}/muscleOptimizer.rst
                     ${conf_docs}/setupfile.rst
                     ${conf_docs}/guiplugin.rst
                     ${conf_docs}/installation.rst
