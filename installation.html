@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Muscle Optimizer installation instructions &#8212; Muscle Optimizer 0.1.0 Help</title>
+    
+    <link rel="stylesheet" href="_static/MO.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/MO-favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Muscle Optimizer 0.1.0 Help" href="index.html" />
+    <link rel="next" title="Muscle Optimizer setup file" href="setupfile.html" />
+    <link rel="prev" title="Muscle Optimizer Theory" href="muscleOptimizer.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="setupfile.html" title="Muscle Optimizer setup file"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="muscleOptimizer.html" title="Muscle Optimizer Theory"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="muscle-optimizer-installation-instructions">
+<span id="installmo"></span><h1>Muscle Optimizer installation instructions<a class="headerlink" href="#muscle-optimizer-installation-instructions" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way to use the Muscle Parameter Optimization software on Windows is to get an archive with
+pre-compiled files from <a class="reference external" href="https://simtk.org/home/opt_muscle_par">https://simtk.org/home/opt_muscle_par</a>. You need to have OpenSim 3.3 installed in
+your system. <em>Make sure</em> that you download an archive that is compatible with your OpenSim installation
+(i.e., 32 or 64 bit). If you want to use the standalone application on Linux, you need to compile from
+sources yourself; you can get the released source code from <a class="reference external" href="https://simtk.org/home/opt_muscle_par">https://simtk.org/home/opt_muscle_par</a> or the
+latest version from the GitHub page <a class="reference external" href="https://github.com/MuscleOptimizer/MuscleOptimizer">https://github.com/MuscleOptimizer/MuscleOptimizer</a> .</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are only interested in the MatLab package, please refer directly to the <a class="reference internal" href="matlab.html#momatlab"><span class="std std-ref">MatLab toolbox</span></a> section.</p>
+</div>
+<div class="section" id="preliminary-step">
+<h2>Preliminary step<a class="headerlink" href="#preliminary-step" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to use the OpenSim GUI plugin or the standalone application, follow these steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Unzip the provided archive</li>
+<li>Copy the <code class="docutils literal"><span class="pre">muscleOptimizeTool.dll</span></code> file from the <code class="docutils literal"><span class="pre">bin</span></code> folder to a directory listed in the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable of your machine (you might copy it to the <em>plugins</em> subfolder in your OpenSim installation folder, and add it to the <code class="docutils literal"><span class="pre">PATH</span></code> as OpenSim developers suggest)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="opensim-gui-plugin-windows-only">
+<h2>Opensim GUI plugin (Windows only)<a class="headerlink" href="#opensim-gui-plugin-windows-only" title="Permalink to this headline">¶</a></h2>
+<p>To use the OpenSim GUI plugin:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Start OpenSim</li>
+<li>Open the Plugins Manager (<code class="docutils literal"><span class="pre">Tools</span> <span class="pre">-&gt;</span> <span class="pre">Plugins</span></code>)</li>
+</ul>
+<div class="align-center figure" id="figmoinst1">
+<img alt="Tools-Plugins menu" src="_images/MOinstall1.png" />
+</div>
+<ul class="simple">
+<li>Go to the <code class="docutils literal"><span class="pre">Downloaded</span></code> tab and click the <code class="docutils literal"><span class="pre">Add</span> <span class="pre">plugins...</span></code> button</li>
+</ul>
+<div class="align-center figure" id="figmoinst2">
+<img alt="Downloaded tab - Add plugins button" src="_images/MOinstall2.png" />
+</div>
+<ul class="simple">
+<li>Locate the <em>nbm</em> file</li>
+</ul>
+<div class="align-center figure" id="figmoinst3">
+<img alt="File explorer for NBM file" src="_images/MOinstall3.png" />
+</div>
+<ul class="simple">
+<li>Click the <code class="docutils literal"><span class="pre">Install</span></code> button</li>
+</ul>
+<div class="align-center figure" id="figmoinst4">
+<img alt="Bottom-left Install button" src="_images/MOinstall4.png" />
+</div>
+<ul class="simple">
+<li>Click the <code class="docutils literal"><span class="pre">Next</span></code> button</li>
+</ul>
+<div class="align-center figure" id="figmoinst5">
+<img alt="Bottom-right Next button" src="_images/MOinstall5.png" />
+</div>
+<ul class="simple">
+<li>Read the license agreement, mark the <em>&#8220;I accept the terms ...&#8221;</em> checkbox, then click <code class="docutils literal"><span class="pre">Install</span></code> button</li>
+</ul>
+<div class="align-center figure" id="figmoinst6">
+<img alt="Accept license agreement" src="_images/MOinstall6.png" />
+</div>
+<ul class="simple">
+<li>Click <code class="docutils literal"><span class="pre">Continue</span></code> to install the plugin even if it is not digitally signed</li>
+</ul>
+<div class="align-center figure" id="figmoinst7">
+<img alt="Click Continue" src="_images/MOinstall7.png" />
+</div>
+<ul class="simple">
+<li>Wait for installation to complete; click the <code class="docutils literal"><span class="pre">Finish</span></code> button, the close the Plugins window</li>
+</ul>
+<div class="align-center figure" id="figmoinst8">
+<img alt="Bottom-right Finish button" src="_images/MOinstall8.png" />
+</div>
+<ul class="simple">
+<li>You should now find the <code class="docutils literal"><span class="pre">Map</span> <span class="pre">Muscles</span> <span class="pre">Operating</span> <span class="pre">Range...</span></code> item in the <cite>Tools</cite> menu, below <code class="docutils literal"><span class="pre">Scale</span> <span class="pre">Model...</span></code></li>
+</ul>
+</div></blockquote>
+<p>Please refer to <a class="reference internal" href="guiplugin.html#moguiplugin"><span class="std std-ref">GUI plugin for OpenSim 3.3</span></a> for instructions on how to use the plugin.</p>
+</div>
+<div class="section" id="standalone-application">
+<h2>Standalone application<a class="headerlink" href="#standalone-application" title="Permalink to this headline">¶</a></h2>
+<p>If you want to use the standalone application, you can open a command prompt and move to the
+<code class="docutils literal"><span class="pre">bin</span></code> directory that you extracted from the package archive. Alternatively, you can copy the
+<code class="docutils literal"><span class="pre">muscleOptimize.exe</span></code> file from the <code class="docutils literal"><span class="pre">bin</span></code> folder to a directory that is listed in the
+<code class="docutils literal"><span class="pre">PATH</span></code> environment variable for your machine.</p>
+<p>Please refer to <a class="reference internal" href="standalone.html#mostandalone"><span class="std std-ref">Muscle Optimizer standalone application</span></a> for instructions on how to use the standalone application.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Muscle Optimizer installation instructions</a><ul>
+<li><a class="reference internal" href="#preliminary-step">Preliminary step</a></li>
+<li><a class="reference internal" href="#opensim-gui-plugin-windows-only">Opensim GUI plugin (Windows only)</a></li>
+<li><a class="reference internal" href="#standalone-application">Standalone application</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="muscleOptimizer.html"
+                        title="previous chapter">Muscle Optimizer Theory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="setupfile.html"
+                        title="next chapter">Muscle Optimizer setup file</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="setupfile.html" title="Muscle Optimizer setup file"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="muscleOptimizer.html" title="Muscle Optimizer Theory"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015  Elena Ceseracciu, Luca Modenese.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

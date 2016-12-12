@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Muscle Optimizer setup file &#8212; Muscle Optimizer 0.1.0 Help</title>
+    
+    <link rel="stylesheet" href="_static/MO.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/MO-favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Muscle Optimizer 0.1.0 Help" href="index.html" />
+    <link rel="next" title="MatLab toolbox" href="matlab.html" />
+    <link rel="prev" title="Muscle Optimizer installation instructions" href="installation.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="matlab.html" title="MatLab toolbox"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Muscle Optimizer installation instructions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="muscle-optimizer-setup-file">
+<span id="mosetupfile"></span><h1>Muscle Optimizer setup file<a class="headerlink" href="#muscle-optimizer-setup-file" title="Permalink to this headline">¶</a></h1>
+<p>There are 7 properties that need to be specified in a Muscle Optimizer setup file:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The model to which the Muscle Optimizer is to be applied;</li>
+<li>The model to use as reference;</li>
+<li>The coordinates to consider during the optimization process;</li>
+<li>The muscles for which optimized parameters will be calculated;</li>
+<li>The number of sampling points per coordinate;</li>
+<li>The minimum degree interval allowed when sampling coordinate ranges;</li>
+<li>The location where to write the optimized output model</li>
+</ul>
+</div></blockquote>
+<p>A sample muscle optimizer setup file is provided in the example below:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;OpenSimDocument</span> <span class="na">Version=</span><span class="s">&quot;30000&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;MuscleOptimizeTool</span> <span class="na">name=</span><span class="s">&quot;Hamner_optimized_2&quot;</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!--Notes for the subject.--&gt;</span>
+        <span class="nt">&lt;notes&gt;</span>Unassigned<span class="nt">&lt;/notes&gt;</span>
+        <span class="c">&lt;!--Specifies the name of the optimized model (.osim)--&gt;</span>
+        <span class="nt">&lt;model&gt;</span>MSK_Models/Target_Hamner_scaled_L.osim<span class="nt">&lt;/model&gt;</span>
+        <span class="c">&lt;!--Specifies the name of the reference model(.osim)--&gt;</span>
+        <span class="nt">&lt;reference_model&gt;</span>MSK_Models/Reference_Hamner_L.osim<span class="nt">&lt;/reference_model&gt;</span>
+        <span class="c">&lt;!--Specifies parameters for optimizing the muscle parameters for the model.--&gt;</span>
+        <span class="nt">&lt;MuscleOptimizer&gt;</span>
+            <span class="c">&lt;!--Whether or not to use the model optimizer during optimization--&gt;</span>
+            <span class="nt">&lt;apply&gt;</span>true<span class="nt">&lt;/apply&gt;</span>
+            <span class="c">&lt;!--Specifies the coordinates (degrees of freedom) to consider</span>
+<span class="c">                (default: ALL)--&gt;</span>
+            <span class="nt">&lt;coordinates</span> <span class="nt">/&gt;</span>
+            <span class="c">&lt;!--Specifies the muscles to consider (default: ALL)--&gt;</span>
+            <span class="nt">&lt;muscles&gt;</span> <span class="nt">&lt;/muscles&gt;</span>
+            <span class="c">&lt;!--Number of evaluation points for each degree of freedom--&gt;</span>
+            <span class="nt">&lt;n_evaluation_points&gt;</span>10<span class="nt">&lt;/n_evaluation_points&gt;</span>
+            <span class="c">&lt;!--Minimum degree interval when sampling a degree of freedom</span>
+<span class="c">                (&lt;=0 -&gt; no limit check). Default value: 2.5 (degrees)--&gt;</span>
+            <span class="nt">&lt;min_degrees_increment&gt;</span>2.5<span class="nt">&lt;/min_degrees_increment&gt;</span>
+            <span class="nt">&lt;output_model_file&gt;</span>
+                Optim_Models/cpp_Optimized_Hamner_scaled_L.osim
+            <span class="nt">&lt;/output_model_file&gt;</span>
+        <span class="nt">&lt;/MuscleOptimizer&gt;</span>
+    <span class="nt">&lt;/MuscleOptimizeTool&gt;</span>
+<span class="nt">&lt;/OpenSimDocument&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="muscle-optimizer-execution-parameters">
+<h2>Muscle Optimizer Execution Parameters<a class="headerlink" href="#muscle-optimizer-execution-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The parameters/properties for running the Muscle Optimizer tool are enclosed inside the opening and closing tags <code class="docutils literal"><span class="pre">&lt;MuscleOptimizeTool&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;/MuscleOptimizeTool&gt;</span></code>. The name attribute <em>name=&#8221;Hamner_optimized_2&#8221;</em> can be used to specify the execution name, and it will be used as name for the optimized output model.</p>
+<div class="section" id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;model&gt;</span></code> property specifies the file name of the OpenSim (.osim) model for which you want to optimize muscle parameters, so that the same operative range as a reference model is kept. Typically this will be a scaled model generated by the Scale Tool, or a subject-specific model generated from medical images.</p>
+</div>
+<div class="section" id="reference-model">
+<h3>Reference model<a class="headerlink" href="#reference-model" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;reference_model&gt;</span></code> property specifies the file name of the OpenSim (.osim) model to be used as reference for muscle optimization, i.e. the operational ranges of muscles included in this model are used to calculate muscle parameters in the model defined at the previous point.</p>
+</div>
+<div class="section" id="coordinates">
+<h3>Coordinates<a class="headerlink" href="#coordinates" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;coordinates&gt;</span></code> property specifies which coordinates to consider when optimizing muscle parameters. If the property is empty or is <em>ALL</em>, all input model coordinates are considered. Limiting the coordinate set might be useful to ignore degrees of freedom that are not relevant for the tasks that the optimized model will be employed for, thus reducing computation time and accuracy for the relevant degrees of freedom. Note that all the enabled coordinates must be present in both input and reference models.</p>
+</div>
+<div class="section" id="muscles">
+<h3>Muscles<a class="headerlink" href="#muscles" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;muscles&gt;</span></code> property specifies for which muscles the optimization is to be performed. If the property is empty or is <em>ALL</em>, all input model muscles are considered. Note that all the enabled muscles must be present in both input and reference models.</p>
+</div>
+<div class="section" id="number-of-evaluation-points">
+<h3>Number of evaluation points<a class="headerlink" href="#number-of-evaluation-points" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;n_evaluation_points&gt;</span></code> property is an integer specifying the number of sampling points to consider for each coordinate of the model that is involved in the action of a muscle. Default value: 10.</p>
+</div>
+<div class="section" id="minimum-degree-increment">
+<h3>Minimum degree increment<a class="headerlink" href="#minimum-degree-increment" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;min_degrees_increment&gt;</span></code> property specifies the minimum interval between two consecutive sampling points on each coordinate. This is useful to avoid over-sampling on coordinates with a very small range, which might affect optimization on other coordinates with larger range of motion.</p>
+</div>
+<div class="section" id="output-file">
+<h3>Output file<a class="headerlink" href="#output-file" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">&lt;output_model_file&gt;</span></code> property specifies the file name of the OpenSim (.osim) model that will be created after the optimization is completed.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Muscle Optimizer setup file</a><ul>
+<li><a class="reference internal" href="#muscle-optimizer-execution-parameters">Muscle Optimizer Execution Parameters</a><ul>
+<li><a class="reference internal" href="#model">Model</a></li>
+<li><a class="reference internal" href="#reference-model">Reference model</a></li>
+<li><a class="reference internal" href="#coordinates">Coordinates</a></li>
+<li><a class="reference internal" href="#muscles">Muscles</a></li>
+<li><a class="reference internal" href="#number-of-evaluation-points">Number of evaluation points</a></li>
+<li><a class="reference internal" href="#minimum-degree-increment">Minimum degree increment</a></li>
+<li><a class="reference internal" href="#output-file">Output file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Muscle Optimizer installation instructions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="matlab.html"
+                        title="next chapter">MatLab toolbox</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/setupfile.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="matlab.html" title="MatLab toolbox"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Muscle Optimizer installation instructions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015  Elena Ceseracciu, Luca Modenese.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

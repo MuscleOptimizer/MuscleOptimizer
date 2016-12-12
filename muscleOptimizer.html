@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Muscle Optimizer Theory &#8212; Muscle Optimizer 0.1.0 Help</title>
+    
+    <link rel="stylesheet" href="_static/MO.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/MO-favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Muscle Optimizer 0.1.0 Help" href="index.html" />
+    <link rel="next" title="Muscle Optimizer installation instructions" href="installation.html" />
+    <link rel="prev" title="Muscle Parameter Optimizer" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Muscle Optimizer installation instructions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Muscle Parameter Optimizer"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="muscle-optimizer-theory">
+<h1>Muscle Optimizer Theory<a class="headerlink" href="#muscle-optimizer-theory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<span id="mooverview"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Musculoskeletal modeling is a computational technique that allows simulating human motion and estimating internal joint loads
+and muscle forces. The aim is to gain deeper insight on the forces occurring in the human body.
+Simulations can be created using generic models derived from cadaveric data or using personalized models
+of the musculoskeletal geometry built from medical images.</p>
+<p>However, these personalized models are currently challenging to generate because, while personalized bone geometries and
+joint parameters can be obtained from segmentation of medical images, musculotendon parameters that regulate force generation
+currently cannot be easily measured or estimated. This is especially true for the optimal fiber length <span class="math">\(l_o^m\)</span> and tendon slack length <span class="math">\(l_s^t\)</span>.</p>
+<p>The algorithms available in the literature to estimate these parameters can be divided into &#8220;anthropometric&#8221; and &#8220;functional&#8221; approaches,
+depending if they use as input only skeletal dimensions or integrate those with additional measurements of muscular function.</p>
+<p>The anthropometric algorithm implemented in the Muscle Optimizer toolbox maps the muscle fiber operating ranges of a generic model into a scaled model, similarly to <a class="reference internal" href="#winby20081682" id="id1">[2]</a>,
+but using a generic and efficient implementation. Musculoskeletal models to be optimized, computational muscle models and involved degrees of freedom are fully customizable by the user.</p>
+</div>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dimensionless-muscle-model">
+<h3>Dimensionless muscle model<a class="headerlink" href="#dimensionless-muscle-model" title="Permalink to this headline">¶</a></h3>
+<p>The Muscle Optimizer toolbox works on OpenSim <a class="reference internal" href="#delp2007opensim" id="id2">[3]</a> models including dimensionless Hill-type muscle actuators of the kind proposed by Zajac in <a class="reference internal" href="#zajac1989muscle" id="id3">[4]</a> (<a class="reference internal" href="#fighillmuscle"><span class="std std-numref">Fig. 1</span></a>).
+These models include a contractile element (CE) connected to an elastic element in series (SE) and one in parallel (PE) and use normalized functions
+to define the active and passive muscle force-length curves, force-velocity curve and tendon force-strain curve. They need five parameters to be defined:
+optimal fiber length <span class="math">\(l_o^m\)</span>, tendon slack length <span class="math">\(l_s^t\)</span>, maximum fiber isometric force <span class="math">\(F_{iso}\)</span>., pennation angle at optimal fiber length <span class="math">\(\alpha_o\)</span> and maximum contraction velocity <span class="math">\(v_{max}\)</span>.
+Equilibrium of the musculotendon unit is obtained when the tendon and the fiber forces along the tendon direction are equal.</p>
+<div class="align-center figure" id="id8">
+<span id="fighillmuscle"></span><a class="reference internal image-reference" href="_images/hillMuscle.png"><img alt="Hill muscle model" src="_images/hillMuscle.png" style="width: 70%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Hill muscle model: A) Representation of the three elements Hill-type muscle model assumed by the software. B) Generic curves defining the dimensionless material properties of the tendon (left side, dashed line identifying tendon stretch for which tensile force equals maximum isometric force) and muscle (right side, solid line: active force, dashed line: passive force, dash-dot line: total muscle force). An equilibrated contraction of a non-pennate muscle is also represented (red dashed line).</span></p>
+</div>
+</div>
+<div class="section" id="describing-the-dimensionless-muscle-operating-range">
+<h3>Describing the dimensionless muscle operating range<a class="headerlink" href="#describing-the-dimensionless-muscle-operating-range" title="Permalink to this headline">¶</a></h3>
+<p>The entire operating range and isometric force generating
+modalities of a muscle can be described by its normalized coefficients calculated as a function of the joint angles
+spanned by the muscle in the model. In this toolbox, we tackled this problem following the procedure described in our
+recent paper <a class="reference internal" href="#modenese2016estimation" id="id4">[1]</a> and reported below.</p>
+<p>The length of a musculotendon actuator <span class="math">\(l^{mt}\)</span> can be calculated from the muscle length <span class="math">\(l^m\)</span> and tendon length <span class="math">\(l^t\)</span> as follows (<a class="reference internal" href="#fighillmuscle"><span class="std std-numref">Fig. 1</span></a> A):</p>
+<div class="math" id="equation-mtu_length">
+<span class="eqno">(1)</span>\[l^{mt} = l^m \cos\alpha + l^t\]</div>
+<p>where <span class="math">\(\alpha\)</span> is the pennation angle at that specific muscle length, calculated assuming constant muscle thickness, as:</p>
+<div class="math" id="equation-penn_angle">
+<span class="eqno">(2)</span>\[\alpha = \arcsin(\frac{l_o^m \sin \alpha_o}{l^m})\]</div>
+<p>Following <a class="reference internal" href="#zajac1989muscle" id="id5">[4]</a> we defined the normalized fiber length as:</p>
+<div class="math" id="equation-norm_fib_len">
+<span class="eqno">(3)</span>\[\tilde{l}^m = \frac{l^m}{l^m_o}\]</div>
+<p>and we decided to define a normalized tendon length (<span class="math">\(\epsilon^t\)</span>  being tendon strain) as:</p>
+<div class="math" id="equation-norm_ten_len">
+<span class="eqno">(4)</span>\[\tilde{l}^t = \frac{l^t}{l^t_s}=(1+\epsilon^t)\]</div>
+<p>Using normalized coefficients, the musculotendon length can now be expressed as <span class="math">\(f(l_o^m, l_s^t)\)</span>:</p>
+<div class="math" id="equation-mtu_length_norm">
+<span class="eqno">(5)</span>\[l^{mt} = (\tilde{l}^m \cos\alpha)l_o^m + \tilde{l}^t l^t_s\]</div>
+<p>If the normalized coefficients are calculated from <span class="math">\(l^m\)</span> and <span class="math">\(l^t\)</span> in a musculotendon unit equilibrated
+for isometric contraction at maximum activation, Eq. <a href="#equation-mtu_length_norm">(5)</a> ensures static equilibrium between the
+tendon and (active plus passive) muscle force of any muscle actuator of length <span class="math">\(l^{mt}\)</span> whose <span class="math">\(l_o^m\)</span> and
+satisfy that equation. For an example, see <a class="reference internal" href="#fighillmuscle"><span class="std std-numref">Fig. 1</span></a> B.</p>
+</div>
+<div class="section" id="musculotendon-parameters-estimation">
+<h3>Musculotendon parameters estimation<a class="headerlink" href="#musculotendon-parameters-estimation" title="Permalink to this headline">¶</a></h3>
+<div class="align-center figure" id="id9">
+<span id="figworkflow"></span><a class="reference internal image-reference" href="_images/workflow.png"><img alt="Algorithm overview" src="_images/workflow.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Flowchart from <a class="reference internal" href="#modenese2016estimation" id="id6">[1]</a> representing the main steps of the proposed algorithm for estimating the parameters of each musculotendon unit (blue: reference model, red: target model, green: optimized model).</span></p>
+</div>
+<p>Similar to <a class="reference internal" href="#winby20081682" id="id7">[2]</a>, the proposed method aims to map the normalized muscle operating conditions of an existing “reference model”,
+whose muscle parameters are assumed to be physiologically valid, onto a “target model” of different anthropometric dimensions for equivalent
+joint configurations. The algorithm, represented as flow chart in <a class="reference internal" href="#figworkflow"><span class="std std-numref">Fig. 2</span></a> A, consists of the following steps, applied to each muscle included in the model:</p>
+<ol class="arabic simple">
+<li>In the reference model, the <span class="math">\(N_q\)</span> degrees of freedom spanned by the musculotendon actuator are uniformly sampled using <span class="math">\(n_{dof}\)</span> points per coordinate, so generating a set of <span class="math">\(n=(n_{dof})^{N_q}\)</span> total model poses in which the considered muscle is equilibrated for isometric contraction with a unitary activation.</li>
+<li>For each pose <span class="math">\(i=1,2,...n\)</span> of the reference model, the vectors of pennation angles <span class="math">\(\alpha_{i,ref}\)</span>, normalized fiber lengths <span class="math">\(\tilde{l}^m_{i,ref}\)</span> and normalized tendon lengths <span class="math">\(\tilde{l}^t_{i,ref}\)</span> are calculated using Eqs. <a href="#equation-penn_angle">(2)</a> <a href="#equation-norm_fib_len">(3)</a> <a href="#equation-norm_ten_len">(4)</a>. Normalized fiber lengths outside the range of 0.5 and 1.5 or causing pennation angles approaching 90 degrees are excluded.</li>
+<li>The musculotendon lengths <span class="math">\(\alpha_{i,ref}\)</span> are calculated in the target model for the same joint configurations used in the reference model at step 1.</li>
+<li>Imposing Eq. <a href="#equation-mtu_length_norm">(5)</a> for all poses, the following <span class="math">\(n \times 2\)</span> linear system is obtained and can be solved in a least square sense, so obtaining the unknown values of <span class="math">\(l^m_{o,targ}\)</span> and <span class="math">\(l^t_{s,targ}\)</span>.</li>
+</ol>
+<div class="math" id="equation-ls_system">
+<span class="eqno">(6)</span>\[\begin{split}\begin{bmatrix} l_1^{mt} \\
+                       l_2^{mt} \\
+                       \vdots \\
+                       l_n^{mt}
+       \end{bmatrix}_{targ} =
+       \begin{bmatrix} \tilde{l}_1^m\cos{\alpha_1} &amp; \tilde{l}_1^t \\
+                       \tilde{l}_2^m\cos{\alpha_2} &amp; \tilde{l}_2^t \\
+                       \vdots \\
+                       \tilde{l}_n^m\cos{\alpha_n} &amp; \tilde{l}_n^t
+       \end{bmatrix}_{ref}
+       \begin{bmatrix} l_o^m \\
+                       l_s^t
+       \end{bmatrix}_{targ}\end{split}\]</div>
+<p>5. If the system yields non physiological results, such as  <span class="math">\(l^t_{s,targ}&lt;0\)</span>, the tendon fraction of <span class="math">\(l^mt_{targ}\)</span> is
+temporary fixed at the same proportion of the reference model <span class="math">\(l^m_{o,targ}\)</span> estimated by solving Eq. <a href="#equation-ls_system">(6)</a> and
+finally <span class="math">\(l^t_{s,targ}\)</span> is re-computed from the same equation using the new value of <span class="math">\(l^m_{o,targ}\)</span>.</p>
+<p class="rubric">Bibliography</p>
+<p id="bibtex-bibliography-muscleOptimizer-0"><table class="docutils citation" frame="void" id="modenese2016estimation" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> Luca Modenese, Elena Ceseracciu, Monica Reggiani, and David&nbsp;G Lloyd. Estimation of musculotendon parameters for scaled and subject specific musculoskeletal models using an optimization technique. <em>Journal of biomechanics</em>, 49(2):141–148, 2016.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="winby20081682" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id7">2</a>)</em> C.R. Winby, D.G. Lloyd, and T.B. Kirk. Evaluation of different analytical methods for subject-specific scaling of musculotendon parameters. <em>Journal of Biomechanics</em>, 41(8):1682 – 1688, 2008.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="delp2007opensim" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[3]</a></td><td>S.&nbsp;L. Delp, F.&nbsp;C. Anderson, A.&nbsp;S. Arnold, P.&nbsp;Loan, A.&nbsp;Habib, C.&nbsp;T. John, E.&nbsp;Guendelman, and D.&nbsp;G. Thelen. Opensim: open-source software to create and analyze dynamic simulations of movement. <em>IEEE Transactions on Biomedical Engineering</em>, 54(11):1940–1950, Nov 2007.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="zajac1989muscle" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> Felix&nbsp;E Zajac. Muscle and tendon: properties, models, scaling, and application to biomechanics and motor control. <em>Critical reviews in biomedical engineering</em>, 17(4):359–411, 1989.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Muscle Optimizer Theory</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#theory">Theory</a><ul>
+<li><a class="reference internal" href="#dimensionless-muscle-model">Dimensionless muscle model</a></li>
+<li><a class="reference internal" href="#describing-the-dimensionless-muscle-operating-range">Describing the dimensionless muscle operating range</a></li>
+<li><a class="reference internal" href="#musculotendon-parameters-estimation">Musculotendon parameters estimation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Muscle Parameter Optimizer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Muscle Optimizer installation instructions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/muscleOptimizer.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Muscle Optimizer installation instructions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Muscle Parameter Optimizer"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015  Elena Ceseracciu, Luca Modenese.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

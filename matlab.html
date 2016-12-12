@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>MatLab toolbox &#8212; Muscle Optimizer 0.1.0 Help</title>
+    
+    <link rel="stylesheet" href="_static/MO.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/MO-favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Muscle Optimizer 0.1.0 Help" href="index.html" />
+    <link rel="next" title="Muscle Optimizer standalone application" href="standalone.html" />
+    <link rel="prev" title="Muscle Optimizer setup file" href="setupfile.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="standalone.html" title="Muscle Optimizer standalone application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="setupfile.html" title="Muscle Optimizer setup file"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="matlab-toolbox">
+<span id="momatlab"></span><h1>MatLab toolbox<a class="headerlink" href="#matlab-toolbox" title="Permalink to this headline">¶</a></h1>
+<p>The MatLab Muscle Parameter Optimization Toolbox can be downloaded as part of the <a class="reference external" href="http://github.com/MuscleOptimizer/MuscleOptimizer">Muscle Optimizer repository</a> on GitHub, under the <code class="docutils literal"><span class="pre">matlab</span></code> directory. A version of this Matlab toolbox,
+designed to reproduce the results and figures of the paper associated with the Muscle Optimizer toolbox <a class="reference internal" href="muscleOptimizer.html#modenese2016estimation" id="id1">[1]</a>,
+is available from our <a class="reference external" href="https://simtk.org/projects/opt_muscle_par">project page</a>  on SimTK.org.</p>
+<p>To use the toolbox, you should add the folder <code class="docutils literal"><span class="pre">MuscleParOptTool</span></code> (located in the <code class="docutils literal"><span class="pre">matlab</span></code> directory of the repository) to the MatLab path (<a class="reference external" href="http://it.mathworks.com/help/matlab/matlab_env/add-remove-or-reorder-folders-on-the-search-path.html">see Matlab documentation</a>).</p>
+<p>The toolbox provides the <code class="docutils literal"><span class="pre">optimMuscleParams</span></code> function, that can be called as in the following example:</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span></span><span class="c">% importing OpenSim libraries</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">opensim</span><span class="p">.</span><span class="n">modeling</span><span class="o">.*</span>
+
+<span class="c">%========= USERS SETTINGS =======</span>
+<span class="c">% model files with paths</span>
+<span class="n">osimModel_ref_filepath</span>   <span class="p">=</span> <span class="s">&#39;MSK_Models/Reference_Hamner_L.osim&#39;</span><span class="p">;</span>
+<span class="n">osimModel_targ_filepath</span>  <span class="p">=</span> <span class="s">&#39;MSK_Models/Target_Hamner_scaled_L.osim&#39;</span><span class="p">;</span>
+<span class="n">OptimizedModel_folder</span>   <span class="p">=</span> <span class="s">&#39;Optim_Models&#39;</span><span class="p">;</span> <span class="c">% folder for storing optimized model</span>
+<span class="c">% evaluations</span>
+<span class="n">N_eval</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="c">%================================</span>
+
+<span class="c">% initializing folders and log file</span>
+<span class="n">log_folder</span>              <span class="p">=</span> <span class="n">OptimizedModel_folder</span><span class="p">;</span>
+<span class="c">% checking if results folder exists. If not, create it.</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">isdir</span><span class="p">(</span><span class="n">OptimizedModel_folder</span><span class="p">)</span>
+    <span class="n">warning</span><span class="p">([</span><span class="s">&#39;Folder &#39;</span><span class="p">,</span> <span class="n">OptimizedModel_folder</span><span class="p">,</span> <span class="s">&#39; does not exist. It will be created.&#39;</span><span class="p">])</span>
+    <span class="n">mkdir</span><span class="p">(</span><span class="n">OptimizedModel_folder</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="c">% optimizing target model based on reference model fro N_eval points per</span>
+<span class="c">% degree of freedom</span>
+<span class="p">[</span><span class="n">osimModel_opt</span><span class="p">,</span> <span class="n">SimsInfo</span><span class="p">{</span><span class="n">N_eval</span><span class="p">}]</span> <span class="p">=</span> <span class="n">optimMuscleParams</span><span class="p">(</span><span class="n">osimModel_ref_filepath</span><span class="p">,</span> <span class="c">...</span>
+                                                      <span class="n">osimModel_targ_filepath</span><span class="p">,</span> <span class="c">...</span>
+                                                      <span class="n">N_eval</span><span class="p">,</span> <span class="c">...</span>
+                                                      <span class="n">log_folder</span><span class="p">);</span>
+
+<span class="c">% printing the optimized model</span>
+<span class="n">osimModel_opt</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">fullfile</span><span class="p">(</span><span class="n">OptimizedModel_folder</span><span class="p">,</span> <span class="n">char</span><span class="p">(</span><span class="n">osimModel_opt</span><span class="p">.</span><span class="n">getName</span><span class="p">())));</span>
+
+    
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setupfile.html"
+                        title="previous chapter">Muscle Optimizer setup file</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="standalone.html"
+                        title="next chapter">Muscle Optimizer standalone application</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/matlab.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="standalone.html" title="Muscle Optimizer standalone application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="setupfile.html" title="Muscle Optimizer setup file"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MO 0.1.0</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015  Elena Ceseracciu, Luca Modenese.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>
