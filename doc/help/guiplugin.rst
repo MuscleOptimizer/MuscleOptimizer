@@ -4,7 +4,7 @@ GUI plugin for OpenSim 3.3
 ##########################
 
 To launch the Muscle Optimizer Tool plugin (after it has been installed following :ref:`installMO`),
-select ``Tools -> Muscle Optimizer Tool...`` from the OpenSim main menu bar.
+select ``Tools -> Map Muscles Operating Range...`` from the OpenSim main menu bar.
 
 .. _figMOmain:
 
